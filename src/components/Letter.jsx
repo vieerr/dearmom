@@ -1,7 +1,7 @@
 import React from "react";
 import { FaHeart, FaSmile, FaFrown } from "react-icons/fa";
 
-const Letter = ({ transcript, theme }) => {
+const Letter = ({ transcript, theme, font }) => {
   const themeStyles = {
     love: {
       card: "bg-pink-100 border-pink-300",
@@ -36,20 +36,20 @@ const Letter = ({ transcript, theme }) => {
         </>
       ),
     },
-    default:
-      {
-        card: "bg-white border-gray-300",
-        text: "text-black",
-        signature: "text-black",
-        decorations: null,
-      }
+    default: {
+      card: "bg-white border-gray-300",
+      text: "text-black",
+      signature: "text-black",
+      decorations: null,
+    },
   };
 
   const currentTheme = themeStyles[theme] || themeStyles.love;
 
   return (
     <div
-      className={`flex justify-center items-center py-8 min-w-max ${currentTheme.container}`}
+      style={{ fontFamily: font }}
+      className={` flex justify-center items-center py-8 min-w-max ${currentTheme.container}`}
     >
       <div
         className={`relative shadow-lg rounded-lg p-6 border w-full max-w-md ${currentTheme.card}`}
@@ -84,7 +84,6 @@ const Letter = ({ transcript, theme }) => {
 };
 
 export default Letter;
-
 
 // import React from "react";
 

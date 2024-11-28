@@ -20,7 +20,7 @@ const MicrophoneControl = ({ setTranscript }) => {
     if (listening) {
       SpeechRecognition.stopListening();
     } else {
-      SpeechRecognition.startListening({ language: "es-EC" , continuous: true});
+      SpeechRecognition.startListening({ language: "es-EC", continuous: true });
     }
     setListening(!listening);
   };
@@ -37,10 +37,14 @@ const MicrophoneControl = ({ setTranscript }) => {
         }`}
         onClick={toggleListening}
       >
-        {listening ? <FaMicrophone size={70} /> : <FaMicrophoneSlash size={70} />}
+        {listening ? (
+          <FaMicrophone size={70} />
+        ) : (
+          <FaMicrophoneSlash size={70} />
+        )}
       </button>
       <p className="text-lg font-semibold">
-       {listening ? "LISTENING :)" : " NOT LISTENING :("}
+        {listening ? "LISTENING :)" : " NOT LISTENING :("}
       </p>
     </div>
   );
