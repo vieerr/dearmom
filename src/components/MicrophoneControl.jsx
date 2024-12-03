@@ -7,7 +7,7 @@ import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { useEffect } from "react";
 
 const MicrophoneControl = ({ setTranscript }) => {
-  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition  } =
     useSpeechRecognition();
 
   if (!browserSupportsSpeechRecognition) {
@@ -29,6 +29,7 @@ const MicrophoneControl = ({ setTranscript }) => {
     setTranscript(transcript);
   }, [transcript]);
 
+  console.log(transcript);
   return (
     <div className="flex flex-col items-center gap-4">
       <button

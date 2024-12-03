@@ -8,6 +8,7 @@ import { toPng } from "html-to-image";
 import { useRef } from "react";
 import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 import axios from "axios";
+import TextToSpeech from "./components/TextToSpeech";
 
 function App() {
   const [letter, setLetter] = useState("");
@@ -28,17 +29,13 @@ function App() {
 
   const sendLetterToWhatsApp = async (letterRef) => {
     try {
-      // Step 1: Convert letter DOM element to PNG Data URL
       const dataUrl = await toPng(letterRef.current);
 
-      // Step 2: Convert Data URL to Blob
       const blob = await (await fetch(dataUrl)).blob();
 
-      // Step 3: Append Blob to FormData
       const formData = new FormData();
-      formData.append("image", blob, "letter.png"); // 'image' must match the key used in multer-config
+      formData.append("image", blob, "letter.png");
 
-      // Step 4: Send FormData to Backend
       const response = await axios.post(
         "http://localhost:3000/upload",
         { image: dataUrl },
@@ -47,11 +44,9 @@ function App() {
         }
       );
 
-      // Step 5: Extract Cloudinary URL from Response
       const imageUrl = response.data.imageUrl;
 
-      // Step 6: Send Cloudinary URL via WhatsApp
-      const phoneNumber = "593992468823"; // Replace with the recipient's phone number
+      const phoneNumber = "593992468823";
       const message = encodeURIComponent(
         `Here's a letter from your child: ${imageUrl}`
       );
@@ -60,17 +55,24 @@ function App() {
       console.error("Error uploading image:", error.response?.data || error);
     }
   };
-
   return (
     <div>
       <Navbar />
       <div className="grid grid-cols-3 ">
         <ThemeButtons setTheme={setTheme} />
-        <div className="flex justify-center flex-col py-10">
-          <div ref={letterRef}>
-            <Letter font={font} transcript={letter} theme={theme} />
+        <div className="flex justify-center flex-col py-20">
+          <div>
+            <Letter
+              letterRef={letterRef}
+              font={font}
+              transcript={letter}
+              theme={theme}
+            />
           </div>
-          <MicrophoneControl setTranscript={setLetter} />
+          <div className="flex w-full justify-evenly">
+            <MicrophoneControl setTranscript={setLetter} />
+            <TextToSpeech letter={letter} />
+          </div>
           <div className="flex justify-evenly gap-6">
             <button
               className={`btn ${
@@ -89,7 +91,9 @@ function App() {
               <FaShare size={35} className="inline-block" /> SEND
             </button>
             <button
-              className="btn bg-red-500 text-white mt-4 btn-lg w-1/3 m-auto"
+              className={`btn ${
+                letter.length > 1 ? "" : "btn-disabled"
+              } bg-red-500 text-white mt-4 btn-lg w-1/3 m-auto`}
               onClick={() => setLetter("")}
             >
               <FaTrash size={35} className="inline-block" /> DELETE
@@ -100,22 +104,22 @@ function App() {
           <h2 className="p-8 text-2xl font-bold">FONT</h2>
           <div className="flex gap-4 justify-center  mt-4 flex-col">
             <button
-              className="btn btn-outline btn-lg mt-4 w-2/3 m-auto"
+              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
               onClick={() => setFont("sans-serif")}
             >
-              <span style={{fontFamily: "sans-serif"}}>TE AMO</span>
+              <span style={{ fontFamily: "sans-serif" }}>I LOVE U</span>
             </button>
             <button
-              className="btn btn-outline btn-lg mt-4 w-2/3 m-auto"
+              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
               onClick={() => setFont("monospace")}
             >
-              <span style={{fontFamily: "monospace"}}>TE AMO</span>
+              <span style={{ fontFamily: "monospace" }}>I LOVE U</span>
             </button>
             <button
-              className="btn btn-outline btn-lg mt-4 w-2/3 m-auto"
+              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
               onClick={() => setFont("cursive")}
             >
-              <span style={{ fontFamily: "cursive" }}>TE AMO</span>
+              <span style={{ fontFamily: "cursive" }}>I LOVE U</span>
             </button>
           </div>
         </div>
