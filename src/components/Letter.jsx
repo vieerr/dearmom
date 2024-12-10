@@ -1,7 +1,7 @@
 import React from "react";
 import { FaHeart, FaSmile, FaFrown } from "react-icons/fa";
 
-const Letter = ({ transcript, theme, font, letterRef }) => {
+const Letter = ({ transcript, theme, font, letterRef, parent }) => {
   const themeStyles = {
     love: {
       card: "bg-pink-100 border-pink-300",
@@ -62,6 +62,9 @@ const Letter = ({ transcript, theme, font, letterRef }) => {
         <div
           className={`underline underline-offset-8 text-2xl leading-relaxed ${currentTheme.text}`}
         >
+          <p className="text-red-400">
+          Dear {parent},       
+          </p>
           {transcript ? (
             transcript.split("\n").map((line, index) => (
               <p key={index} className="mb-4 first:mt-0">

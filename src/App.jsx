@@ -6,6 +6,7 @@ import MicrophoneControl from "./components/MicrophoneControl";
 import ThemeButtons from "./components/ThemeButtons";
 import { toPng } from "html-to-image";
 import { useRef } from "react";
+import { IoIosWoman, IoIosMan } from "react-icons/io";
 import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import TextToSpeech from "./components/TextToSpeech";
@@ -13,6 +14,7 @@ import TextToSpeech from "./components/TextToSpeech";
 function App() {
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
+  const [parent, setParent] = useState("mom");
 
   const [theme, setTheme] = useState("default");
 
@@ -63,6 +65,7 @@ function App() {
         <div className="flex justify-center flex-col py-20">
           <div>
             <Letter
+              parent={parent}
               letterRef={letterRef}
               font={font}
               transcript={letter}
@@ -72,6 +75,22 @@ function App() {
           <div className="flex w-full justify-evenly">
             <MicrophoneControl setTranscript={setLetter} />
             <TextToSpeech letter={letter} />
+          </div>
+          {/* TODO MAN WOMAN */}
+
+          <div className="flex justify-evenly gap-6">
+            <button
+              className={`btn  bg-blue-500 btn-success  text-white mt-4 btn-lg w-1/3 m-auto`}
+              onClick={() => setParent("dad")}
+            >
+              <IoIosMan size={35} className="inline-block" /> DAD
+            </button>
+            <button
+              className={`btn  text-white bg-red-400 mt-4 btn-lg w-1/3 m-auto`}
+              onClick={() => setParent("mom")}
+            >
+              <IoIosWoman size={35} className="inline-block" /> MOM
+            </button>
           </div>
           <div className="flex justify-evenly gap-6">
             <button
