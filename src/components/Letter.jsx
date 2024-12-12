@@ -1,7 +1,13 @@
 import React from "react";
 import { FaHeart, FaSmile, FaFrown } from "react-icons/fa";
+import { getUserLocationAndDate } from "../utils/LetterInfo";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Letter = ({ transcript, theme, font, letterRef, parent }) => {
+  const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
+
   const themeStyles = {
     love: {
       card: "bg-pink-100 border-pink-300",
@@ -46,6 +52,12 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
 
   const currentTheme = themeStyles[theme] || themeStyles.love;
 
+  useEffect(() => {
+    getUserLocationAndDate().then(setLocation).catch(setError);
+  }, []);
+
+  console.log(location);
+
   return (
     <div
       ref={letterRef}
@@ -62,9 +74,10 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
         <div
           className={`underline underline-offset-8 text-2xl leading-relaxed ${currentTheme.text}`}
         >
-          <p className="text-red-400">
-          Dear {parent},       
-          </p>
+          <p className="font-light text-sm text-gray-400">
+            {location?.city}, {location?.day} {location?.month} {location?.year}
+          </p >
+          <p className="text-red-400">Dear {parent},</p>
           {transcript ? (
             transcript.split("\n").map((line, index) => (
               <p key={index} className="mb-4 first:mt-0">
