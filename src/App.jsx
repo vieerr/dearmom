@@ -6,18 +6,17 @@ import MicrophoneControl from "./components/MicrophoneControl";
 import ThemeButtons from "./components/ThemeButtons";
 import { toPng } from "html-to-image";
 import { useRef } from "react";
-import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import dad from "./audios/dad.mp3";
 import mom from "./audios/mom.mp3";
-import del from "./audios/del.mp3";
-import changefont from "./audios/font.mp3";
 import save from "./audios/save.mp3";
 import send from "./audios/send.mp3";
 import TextToSpeech from "./components/TextToSpeech";
 import { useEffect } from "react";
 import OthersModal from "./components/OthersModal";
-import Addressee from "./Addressee";
+import Addressee from "./components/Addressee";
+import LetterActions from "./components/LetterActions";
+import FontButtons from "./components/FontButtons";
 
 function App() {
   const [letter, setLetter] = useState("");
@@ -111,68 +110,16 @@ function App() {
             <TextToSpeech letter={letter} />
           </div>
           <Addressee setDadLetter={setDadLetter} setMomLetter={setMomLetter} />
-          <div className="flex justify-evenly gap-6">
-            <button
-              className={`btn ${
-                letter.length > 1 ? "" : "btn-disabled"
-              } btn-success text-white mt-4 btn-lg w-1/3 m-auto`}
-              onClick={saveAsImage}
-            >
-              <FaDownload size={35} className="inline-block" /> SAVE
-            </button>
-            <button
-              className={`btn ${
-                letter.length > 1 ? "" : "btn-disabled"
-              } bg-blue-500 text-white mt-4 btn-lg w-1/3 m-auto`}
-              onClick={() => sendLetterToWhatsApp(letterRef)}
-            >
-              <FaShare size={35} className="inline-block" /> SEND
-            </button>
-            <button
-              className={`btn ${
-                letter.length > 1 ? "" : "btn-disabled"
-              } bg-red-500 text-white mt-4 btn-lg w-1/3 m-auto`}
-              onClick={() => {
-                setLetter("");
-                setAudio(del);
-              }}
-            >
-              <FaTrash size={35} className="inline-block" /> DELETE
-            </button>
-          </div>
+          <LetterActions
+            letter={letter}
+            letterRef={letterRef}
+            saveAsImage={saveAsImage}
+            sendLetterToWhatsApp={sendLetterToWhatsApp}
+            setAudio={setAudio}
+            setLetter={setLetter}
+          />
         </div>
-        <div className="m-auto">
-          <h2 className="p-8 text-2xl font-bold">FONT</h2>
-          <div className="flex gap-4 justify-center  mt-4 flex-col">
-            <button
-              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
-              onClick={() => {
-                setFont("sans-serif");
-                setAudio(changefont);
-              }}
-            >
-              <span style={{ fontFamily: "sans-serif" }}>I LOVE U</span>
-            </button>
-            <button
-              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
-              onClick={() => {
-                setFont("monospace");
-                setAudio(changefont);
-              }}
-            >
-              <span style={{ fontFamily: "monospace" }}>I LOVE U</span>
-            </button>
-            <button
-              className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
-              onClick={() => {
-                setFont("cursive");
-                setAudio(changefont);
-              }}
-            >
-              <span style={{ fontFamily: "cursive" }}>I LOVE U</span>
-            </button>
-          </div>
-        </div>
+        <FontButtons setAudio={setAudio} setFont={setFont} />
       </div>
     </div>
   );

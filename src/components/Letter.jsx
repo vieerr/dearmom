@@ -67,17 +67,15 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
       <div
         className={`relative shadow-lg rounded-lg p-6 border w-full max-w-md ${currentTheme.card}`}
       >
-        {/* Decorative Icons */}
         {currentTheme.decorations}
 
-        {/* Letter Content */}
+        <p className="font-light text-sm text-gray-400">
+          {location?.city}, {location?.day} {location?.month} {location?.year}
+        </p>
         <div
           className={`underline underline-offset-8 text-2xl leading-relaxed ${currentTheme.text}`}
         >
-          <p className="font-light text-sm text-gray-400">
-            {location?.city}, {location?.day} {location?.month} {location?.year}
-          </p >
-          <p className="text-red-400">Dear {parent},</p>
+          <p className="text-red-400 2">Dear {parent},</p>
           {transcript ? (
             transcript.split("\n").map((line, index) => (
               <p key={index} className="mb-4 first:mt-0">

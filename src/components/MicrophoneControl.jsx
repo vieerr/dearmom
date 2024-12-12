@@ -8,7 +8,7 @@ import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 const MicrophoneControl = ({ setTranscript }) => {
   const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
-  
+
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
@@ -75,12 +75,12 @@ const MicrophoneControl = ({ setTranscript }) => {
         {listening ? (
           <>
             <FaMicrophone size={70} className="z-10 relative" />
-            <div 
+            <div
               className="radial-progress absolute top-0 left-0 w-full h-full text-primary-content"
               style={{
                 "--value": timerProgress,
                 "--size": "7rem",
-                "--thickness": "4px"
+                "--thickness": "4px",
               }}
               role="progressbar"
             ></div>
