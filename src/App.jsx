@@ -6,7 +6,6 @@ import MicrophoneControl from "./components/MicrophoneControl";
 import ThemeButtons from "./components/ThemeButtons";
 import { toPng } from "html-to-image";
 import { useRef } from "react";
-import { IoIosWoman, IoIosMan } from "react-icons/io";
 import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import dad from "./audios/dad.mp3";
@@ -15,13 +14,10 @@ import del from "./audios/del.mp3";
 import changefont from "./audios/font.mp3";
 import save from "./audios/save.mp3";
 import send from "./audios/send.mp3";
-
-import { TbManFilled } from "react-icons/tb";
-import { TbWomanFilled } from "react-icons/tb";
-
 import TextToSpeech from "./components/TextToSpeech";
 import { useEffect } from "react";
-import { BsFillPersonBadgeFill } from "react-icons/bs";
+import OthersModal from "./components/OthersModal";
+import Addressee from "./Addressee";
 
 function App() {
   const [letter, setLetter] = useState("");
@@ -97,68 +93,24 @@ function App() {
 
   return (
     <div>
-      <dialog id="my_modal_2" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Other contacts</h3>
-          <div className="flex flex-col gap-5 p-7">
-            <button className="btn">
-              <TbManFilled size={35} className="inline-block" /> Brother
-            </button>
-            <button className="btn">
-              <TbWomanFilled size={35} className="inline-block" /> Sister
-            </button>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
+      <OthersModal />
       {audio && <audio ref={audioRef} src={audio}></audio>}
       <Navbar />
       <div className="grid grid-cols-3 ">
         <ThemeButtons setAudio={setAudio} setTheme={setTheme} />
         <div className="flex justify-center flex-col py-20">
-          <div>
-            <Letter
-              parent={parent}
-              letterRef={letterRef}
-              font={font}
-              transcript={letter}
-              theme={theme}
-            />
-          </div>
+          <Letter
+            parent={parent}
+            letterRef={letterRef}
+            font={font}
+            transcript={letter}
+            theme={theme}
+          />
           <div className="flex w-full justify-evenly">
             <MicrophoneControl setTranscript={setLetter} />
             <TextToSpeech letter={letter} />
           </div>
-
-          <div className="flex justify-evenly gap-6">
-            <button
-              className={` btn  bg-blue-500 btn-success  text-white mt-4 btn-lg w-1/3 m-auto`}
-              onClick={() => {
-                setDadLetter();
-              }}
-            >
-              <IoIosMan size={35} className="inline-block" /> DAD
-            </button>
-            <button
-              className={`btn  text-white bg-red-400 mt-4 btn-lg w-1/3 m-auto`}
-              onClick={() => {
-                setMomLetter();
-              }}
-            >
-              <IoIosWoman size={35} className="inline-block" /> MOM
-            </button>
-            <button
-              className={`btn  text-white bg-gray-400 mt-4 btn-lg w-1/3 m-auto`}
-              onClick={() => {
-                document.getElementById("my_modal_2").showModal();
-              }}
-            >
-              <BsFillPersonBadgeFill size={35} className="inline-block" /> OTHER
-            </button>
-          </div>
+          <Addressee setDadLetter={setDadLetter} setMomLetter={setMomLetter} />
           <div className="flex justify-evenly gap-6">
             <button
               className={`btn ${
