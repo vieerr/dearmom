@@ -9,13 +9,13 @@ import { useRef } from "react";
 import { IoIosWoman, IoIosMan } from "react-icons/io";
 import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 import axios from "axios";
+import Timer from "./components/Timer";
 import TextToSpeech from "./components/TextToSpeech";
 
 function App() {
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
   const [parent, setParent] = useState("mom");
-
   const [theme, setTheme] = useState("default");
 
   const letterRef = useRef();
@@ -73,6 +73,7 @@ function App() {
             />
           </div>
           <div className="flex w-full justify-evenly">
+            {/* <Timer/> */}
             <MicrophoneControl setTranscript={setLetter} />
             <TextToSpeech letter={letter} />
           </div>
