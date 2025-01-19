@@ -13,6 +13,11 @@ const AddContact = ({ people, setPeople }) => {
     phone: "",
   });
 
+  const editContact = (person) => {
+    setContact(person);
+    // setPeople(people.filter((p) => p !== person));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContact((prevContact) => ({
@@ -23,11 +28,9 @@ const AddContact = ({ people, setPeople }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Contact added:", contact);
+    alert("Contact added:", contact);
     setPeople([...people, contact]);
   };
-
-  console.log(people);
 
   const validateContact = () => {
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -53,12 +56,6 @@ const AddContact = ({ people, setPeople }) => {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (validateContact()) {
-          handleSubmit(e);
-        }
-      }}
       className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md"
     >
       <h2 className="text-2xl font-bold mb-4 text-center uppercase ">
@@ -80,7 +77,13 @@ const AddContact = ({ people, setPeople }) => {
                 </div>{" "}
                 <p>{person.name}</p>
                 <div className="flex">
-                  <button onClick={() => {}} className="btn btn-outline mr-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      editContact(person);
+                    }}
+                    className="btn btn-outline mr-2"
+                  >
                     <MdEdit />
                   </button>
                   <button
@@ -208,6 +211,22 @@ const AddContact = ({ people, setPeople }) => {
         </div>
       </div>
       <button
+        onClick={(e) => {
+          e.preventDefault();
+          if (validateContact()) {
+            const existingContactIndex = people.findIndex(
+              (person) => person.phone === contact.phone
+            );
+            if (existingContactIndex !== -1) {
+              const updatedPeople = [...people];
+              updatedPeople[existingContactIndex] = contact;
+              setPeople(updatedPeople);
+            } else {
+              setPeople([...people, contact]);
+            }
+            setContact({ name: "", phone: "" });
+          }
+        }}
         type="submit"
         className="btn btn-primary w-full"
       >
