@@ -14,6 +14,7 @@ import MicrophoneControl from "./MicrophoneControl";
 import TextToSpeech from "./TextToSpeech";
 import ThemeButtons from "./ThemeButtons";
 import OthersModal from "./OthersModal";
+import getBackendURL from "../utils/getBackendURL";
 
 const LetterContainer = ({people}) => {
 
@@ -52,7 +53,7 @@ const LetterContainer = ({people}) => {
 
       const dataUrl = await toPng(letterRef.current);
       const response = await axios.post(
-        "http://localhost:3000/upload",
+        getBackendURL() + "/upload",
         { image: dataUrl },
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -25,7 +25,7 @@ const AddContact = ({ people, setPeople }) => {
       onSubmit={handleSubmit}
       className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md"
     >
-      <h2 className="text-2xl font-bold mb-4 text-center">Add Contact</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center uppercase ">registered contacts</h2>
 
       <div className="form-control mb-4">
         <label className="label">

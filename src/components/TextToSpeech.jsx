@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { FaVolumeUp } from "react-icons/fa";
 import { useEffect } from "react";
+import getBackendURL from "../utils/getBackendURL";
 
 const TextToSpeech = ({ letter }) => {
   const [text, setText] = useState("");
@@ -19,7 +20,7 @@ const TextToSpeech = ({ letter }) => {
     setAudioSrc(null); // Clear previous audio
     try {
       const response = await axios.post(
-        "http://localhost:3000/synthesize",
+        getBackendURL()+"/synthesize",
         { text },
         { responseType: "blob" } // Important: Fetch the response as a Blob
       );
