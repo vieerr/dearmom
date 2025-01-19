@@ -53,24 +53,32 @@ const Navbar = ({ setPeople, people }) => {
       </dialog>
       <div className="navbar-end">
         <button
-          onClick={() =>document.getElementById("for-parents").showModal()
-          }
-          className= {`btn btn-outline btn-lg mr-36 m-2 ${!isAuthenticated && "btn-disabled" }`}
+          onClick={() => document.getElementById("for-parents").showModal()}
+          className={`btn btn-outline btn-lg mr-36 m-2 ${
+            !isAuthenticated && "btn-disabled"
+          }`}
         >
           FOR PARENTS
         </button>
         {isAuthenticated ? (
           <div className="flex flex-col items-center justify-center">
-            <div
-              tabIndex={0}
-              role="button"
-              className="avatar"
-            >
+            <div tabIndex={0} role="button" className="avatar">
               <div className="w-12 rounded-full mb-3">
                 <img alt="User profile picture" src={user.picture} />
               </div>
             </div>
-            <button onClick={()=> logout()} className="btn btn-sm btn-error btn-outline">Log out</button>
+            <button
+              onClick={() =>
+                logout({
+                  logoutParams: {
+                    returnTo: window.location.origin,
+                  },
+                })
+              }
+              className="btn btn-sm btn-error btn-outline"
+            >
+              Log out
+            </button>
           </div>
         ) : (
           <button
