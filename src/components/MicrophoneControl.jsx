@@ -14,6 +14,7 @@ const MicrophoneControl = ({ setTranscript }) => {
   }
 
   const [listening, setListening] = useState(false);
+  
   const [timeLeft, setTimeLeft] = useState(30);
   const timerIntervalRef = useRef(null);
 

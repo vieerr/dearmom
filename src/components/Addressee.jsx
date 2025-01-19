@@ -1,7 +1,7 @@
 import { BsFillPersonBadgeFill } from "react-icons/bs";
 import { IoIosMan, IoIosWoman } from "react-icons/io";
 
-const Addressee = ({ setDadLetter, setMomLetter }) => {
+const Addressee = ({ setDadLetter, setMomLetter,letterRef, sendLetterToWhatsApp }) => {
   return (
     <div className="flex justify-evenly gap-6">
       <button

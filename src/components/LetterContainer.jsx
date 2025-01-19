@@ -13,8 +13,10 @@ import LetterActions from "./LetterActions";
 import MicrophoneControl from "./MicrophoneControl";
 import TextToSpeech from "./TextToSpeech";
 import ThemeButtons from "./ThemeButtons";
+import OthersModal from "./OthersModal";
 
-const LetterContainer = () => {
+const LetterContainer = ({people}) => {
+
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
   const [parent, setParent] = useState("mom");
@@ -44,17 +46,11 @@ const LetterContainer = () => {
     }
   };
 
-  const sendLetterToWhatsApp = async (letterRef) => {
+  const sendLetterToWhatsApp = async (letterRef, phone) => {
     try {
       setAudio(send);
 
       const dataUrl = await toPng(letterRef.current);
-
-      const blob = await (await fetch(dataUrl)).blob();
-
-      const formData = new FormData();
-      formData.append("image", blob, "letter.png");
-
       const response = await axios.post(
         "http://localhost:3000/upload",
         { image: dataUrl },
@@ -65,7 +61,7 @@ const LetterContainer = () => {
 
       const imageUrl = response.data.imageUrl;
 
-      const phoneNumber = "593992468823";
+      const phoneNumber = phone;
       const message = encodeURIComponent(
         `Here's a letter from your child: ${imageUrl}`
       );
@@ -91,7 +87,7 @@ const LetterContainer = () => {
       {audio && <audio ref={audioRef} src={audio}></audio>}
       <div className="grid grid-cols-3 ">
         <ThemeButtons setAudio={setAudio} setTheme={setTheme} />
-        <div className="flex justify-center flex-col py-20">
+        <div className="flex justify-center w-full flex-col py-20">
           <Letter
             parent={parent}
             letterRef={letterRef}
@@ -103,7 +99,12 @@ const LetterContainer = () => {
             <MicrophoneControl setTranscript={setLetter} />
             <TextToSpeech letter={letter} />
           </div>
-          <Addressee setDadLetter={setDadLetter} setMomLetter={setMomLetter} />
+          <Addressee
+            sendLetterToWhatsApp={sendLetterToWhatsApp}
+            letterRef={letterRef}
+            setDadLetter={setDadLetter}
+            setMomLetter={setMomLetter}
+          />
           <LetterActions
             letter={letter}
             letterRef={letterRef}
@@ -114,6 +115,7 @@ const LetterContainer = () => {
           />
         </div>
         <FontButtons setAudio={setAudio} setFont={setFont} />
+        <OthersModal letterRef={letterRef} sendLetter={sendLetterToWhatsApp} people={people} />
       </div>
     </>
   );

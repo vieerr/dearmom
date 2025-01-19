@@ -1,14 +1,14 @@
 import "regenerator-runtime/runtime";
 import Navbar from "./components/Navbar";
-import OthersModal from "./components/OthersModal";
 import LetterContainer from "./components/LetterContainer";
+import { useState } from "react";
 
 function App() {
+  const [people, setPeople] = useState([]);
   return (
     <div>
-      <OthersModal />
-      <Navbar />
-      <LetterContainer />
+      <Navbar setPeople={setPeople} people={people}/>
+      <LetterContainer people={people}/>
     </div>
   );
 }
