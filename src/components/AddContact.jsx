@@ -55,9 +55,7 @@ const AddContact = ({ people, setPeople }) => {
   };
 
   return (
-    <form
-      className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md"
-    >
+    <form className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center uppercase ">
         registered contacts
       </h2>
@@ -87,11 +85,15 @@ const AddContact = ({ people, setPeople }) => {
                     <MdEdit />
                   </button>
                   <button
-                    onClick={() =>
-                      setPeople(
-                        people.filter((person) => person !== people[index])
-                      )
-                    }
+                    onClick={() => {
+                      if (
+                        confirm("Are you sure you want to delete this contact?")
+                      ) {
+                        setPeople(
+                          people.filter((person) => person !== people[index])
+                        );
+                      }
+                    }}
                     className="btn btn-outline  "
                   >
                     <FaTrash />

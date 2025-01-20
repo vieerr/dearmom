@@ -32,6 +32,15 @@ const FontButtons = ({setFont, setAudio}) => {
         >
           <span style={{ fontFamily: "cursive" }}>I LOVE U</span>
         </button>
+        <button
+          className="btn btn-outline btn-lg mt-4 w-3/3 m-auto"
+          onClick={() => {
+            setFont("serif");
+            setAudio(changefont);
+          }}
+        >
+          <span style={{ fontFamily: "serif" }}>I LOVE U</span>
+        </button>
       </div>
     </div>
   );
