@@ -14,21 +14,22 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
     getUserLocationAndDate().then(setLocation).catch(setError);
   }, []);
 
-
   return (
     <div
       ref={letterRef}
       style={{ fontFamily: font }}
-      className={` flex justify-center items-center py-8 min-w-max ${currentTheme.container}`}
+      className={` flex justify-center items-center md:py-8 md:min-w-max ${currentTheme.container}`}
     >
       <div
-        className={`relative shadow-lg rounded-lg p-6 border w-full max-w-md ${currentTheme.card}`}
+        className={`shadow-lg rounded-lg p-6 border md:w-full md:max-w-md ${currentTheme.card}`}
       >
         {currentTheme.decorations}
 
-        {location && <p className="font-light text-sm text-gray-400">
-          {location?.city}, {location?.day} {location?.month} {location?.year}
-        </p>}
+        {location && (
+          <p className="font-light text-sm text-gray-400">
+            {location?.city}, {location?.day} {location?.month} {location?.year}
+          </p>
+        )}
         <div
           className={`underline underline-offset-8 text-2xl leading-relaxed ${currentTheme.text}`}
         >

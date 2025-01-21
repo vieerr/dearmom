@@ -16,8 +16,7 @@ import ThemeButtons from "./ThemeButtons";
 import OthersModal from "./OthersModal";
 import getBackendURL from "../utils/getBackendURL";
 
-const LetterContainer = ({people}) => {
-
+const LetterContainer = ({ people }) => {
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
   const [parent, setParent] = useState("mom");
@@ -86,9 +85,9 @@ const LetterContainer = ({people}) => {
   return (
     <>
       {audio && <audio ref={audioRef} src={audio}></audio>}
-      <div className="grid grid-cols-3 ">
+      <div className="grid grid-cols-3 gap-3 mx-3 md:mx-0 md:gap-0 md:grid md:grid-cols-3 ">
         <ThemeButtons setAudio={setAudio} setTheme={setTheme} />
-        <div className="flex justify-center w-full flex-col py-20">
+        <div className=" md:col-span-1 col-span-3 md:order-none flex justify-center w-full flex-col md:py-20">
           <Letter
             parent={parent}
             letterRef={letterRef}
@@ -96,28 +95,57 @@ const LetterContainer = ({people}) => {
             transcript={letter}
             theme={theme}
           />
-          <div className="flex w-full justify-evenly">
+          <div className="flex w-full justify-evenly mt-5 md:mt-0">
             <MicrophoneControl setTranscript={setLetter} />
             <TextToSpeech letter={letter} />
           </div>
+          <div className="hidden md:block">
+            <Addressee
+              people={people}
+              sendLetterToWhatsApp={sendLetterToWhatsApp}
+              letterRef={letterRef}
+              setDadLetter={setDadLetter}
+              setMomLetter={setMomLetter}
+            />
+            <div>
+              <LetterActions
+                letter={letter}
+                letterRef={letterRef}
+                saveAsImage={saveAsImage}
+                sendLetterToWhatsApp={sendLetterToWhatsApp}
+                setAudio={setAudio}
+                setLetter={setLetter}
+              />
+            </div>
+          </div>
+        </div>
+        <FontButtons setAudio={setAudio} setFont={setFont} />
+        <div className="md:hidden" >
           <Addressee
+            people={people}
             sendLetterToWhatsApp={sendLetterToWhatsApp}
             letterRef={letterRef}
             setDadLetter={setDadLetter}
             setMomLetter={setMomLetter}
           />
-          <LetterActions
-            letter={letter}
-            letterRef={letterRef}
-            saveAsImage={saveAsImage}
-            sendLetterToWhatsApp={sendLetterToWhatsApp}
-            setAudio={setAudio}
-            setLetter={setLetter}
-          />
         </div>
-        <FontButtons setAudio={setAudio} setFont={setFont} />
-        <OthersModal letterRef={letterRef} sendLetter={sendLetterToWhatsApp} people={people} />
       </div>
+
+      <div className="md:hidden">
+        <LetterActions
+          letter={letter}
+          letterRef={letterRef}
+          saveAsImage={saveAsImage}
+          sendLetterToWhatsApp={sendLetterToWhatsApp}
+          setAudio={setAudio}
+          setLetter={setLetter}
+        />
+      </div>
+      <OthersModal
+        letterRef={letterRef}
+        sendLetter={sendLetterToWhatsApp}
+        people={people}
+      />
     </>
   );
 };

@@ -44,7 +44,7 @@ const TextToSpeech = ({ letter }) => {
   return (
     <div>
       <button
-        className={`btn btn-circle btn-lg w-28 h-28 ${
+        className={`btn btn-circle btn-lg w-20 h-20 md:w-28 md:h-28 ${
           text.length === 0 ? "btn-disabled" : done ? "bg-gray-300": "bg-green-200 text-white-700"
         }`}
         onClick={handleSpeak}

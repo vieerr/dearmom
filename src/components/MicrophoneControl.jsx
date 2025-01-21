@@ -68,7 +68,7 @@ const MicrophoneControl = ({ setTranscript }) => {
   return (
     <div className="flex flex-col items-center gap-4 relative">
       <button
-        className={`btn btn-circle btn-lg w-28 h-28 ${
+        className={`btn btn-circle btn-lg w-20 h-20 md:w-28 md:h-28 ${
           listening ? "bg-red-500 text-white" : "bg-green-200 text-white-700"
         } relative`}
         onClick={toggleListening}
@@ -90,7 +90,7 @@ const MicrophoneControl = ({ setTranscript }) => {
           <FaMicrophoneSlash size={70} />
         )}
       </button>
-      <p className="text-lg font-semibold">
+      <p className="text-lg font-semibold hidden md:inline-block">
         {listening ? `LISTENING (${timeLeft}s)` : "NOT LISTENING :("}
       </p>
     </div>

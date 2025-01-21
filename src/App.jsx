@@ -6,7 +6,7 @@ import { useState } from "react";
 function App() {
   const [people, setPeople] = useState([]);
   return (
-    <div>
+    <div className="w-screen" >
       <Navbar setPeople={setPeople} people={people}/>
       <LetterContainer people={people}/>
     </div>
