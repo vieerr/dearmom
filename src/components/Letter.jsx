@@ -21,7 +21,7 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
       className={` flex justify-center items-center md:py-8 md:min-w-max ${currentTheme.container}`}
     >
       <div
-        className={`shadow-lg rounded-lg p-6 border md:w-full md:max-w-md ${currentTheme.card}`}
+        className={`relative shadow-lg rounded-lg p-6 border md:w-full md:max-w-md ${currentTheme.card}`}
       >
         {currentTheme.decorations}
 
