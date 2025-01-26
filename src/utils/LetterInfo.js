@@ -23,7 +23,6 @@ export const getUserLocationAndDate = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             const address = data.address;
             const city =
               address.city ||

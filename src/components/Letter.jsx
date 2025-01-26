@@ -1,10 +1,9 @@
-import React from "react";
 import { getUserLocationAndDate } from "../utils/LetterInfo";
 import { useEffect } from "react";
 import { useState } from "react";
 import themeStyles from "../utils/themeStyles.jsx";
 
-const Letter = ({ transcript, theme, font, letterRef, parent }) => {
+const Letter = ({ transcript, theme, font, letterRef, addressee }) => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
 
@@ -33,7 +32,7 @@ const Letter = ({ transcript, theme, font, letterRef, parent }) => {
         <div
           className={`underline underline-offset-8 text-2xl leading-relaxed ${currentTheme.text}`}
         >
-          <p className="text-red-400 2">Dear {parent},</p>
+          <p className="text-red-400 2">Dear {addressee.name},</p>
           {transcript ? (
             transcript.split("\n").map((line, index) => (
               <p key={index} className="mb-4 first:mt-0">

@@ -19,7 +19,7 @@ import getBackendURL from "../utils/getBackendURL";
 const LetterContainer = ({ people }) => {
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
-  const [parent, setParent] = useState("mom");
+  const [addressee, setAddressee] = useState(people[0]);
   const [audio, setAudio] = useState(null);
   const [theme, setTheme] = useState("default");
 
@@ -46,7 +46,7 @@ const LetterContainer = ({ people }) => {
     }
   };
 
-  const sendLetterToWhatsApp = async (letterRef, phone) => {
+  const sendLetterToWhatsApp = async (phone) => {
     try {
       setAudio(send);
 
@@ -74,11 +74,11 @@ const LetterContainer = ({ people }) => {
   const audioRef = useRef(null);
 
   const setDadLetter = () => {
-    setParent("dad");
+    setAddressee(people.find((person) => person.name.toLowerCase() === "dad"));
     setAudio(dad);
   };
   const setMomLetter = () => {
-    setParent("mom");
+    setAddressee(people.find((person) => person.name.toLowerCase() === "mom"));
     setAudio(mom);
   };
 
@@ -89,7 +89,7 @@ const LetterContainer = ({ people }) => {
         <ThemeButtons setAudio={setAudio} setTheme={setTheme} />
         <div className=" md:col-span-1 col-span-3 md:order-none flex justify-center w-full flex-col md:py-20">
           <Letter
-            parent={parent}
+            addressee={addressee}
             letterRef={letterRef}
             font={font}
             transcript={letter}
@@ -109,6 +109,7 @@ const LetterContainer = ({ people }) => {
             />
             <div>
               <LetterActions
+                addressee={addressee}
                 letter={letter}
                 letterRef={letterRef}
                 saveAsImage={saveAsImage}
@@ -120,7 +121,7 @@ const LetterContainer = ({ people }) => {
           </div>
         </div>
         <FontButtons setAudio={setAudio} setFont={setFont} />
-        <div className="md:hidden" >
+        <div className="md:hidden">
           <Addressee
             people={people}
             sendLetterToWhatsApp={sendLetterToWhatsApp}
@@ -133,6 +134,7 @@ const LetterContainer = ({ people }) => {
 
       <div className="md:hidden">
         <LetterActions
+          addressee={addressee}
           letter={letter}
           letterRef={letterRef}
           saveAsImage={saveAsImage}
@@ -142,6 +144,8 @@ const LetterContainer = ({ people }) => {
         />
       </div>
       <OthersModal
+      setAudio={setAudio}
+        setAddressee={setAddressee}
         letterRef={letterRef}
         sendLetter={sendLetterToWhatsApp}
         people={people}

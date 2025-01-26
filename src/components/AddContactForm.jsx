@@ -2,12 +2,15 @@ import { useState } from "react";
 //icons for the contacts
 import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
+import { BlockPicker } from "react-color";
 
-const AddContactForm = ({ people, setPeople }) => {
+const AddContactForm = ({ validateContact, people, setPeople }) => {
   const [contact, setContact] = useState({
     name: "",
     phone: "",
+    color: "#fff",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContact((prevContact) => ({
@@ -16,33 +19,38 @@ const AddContactForm = ({ people, setPeople }) => {
     }));
   };
 
-  const validateContact = () => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    const phoneRegex = /^\d{9}$/;
-
-    if (!nameRegex.test(contact.name)) {
-      alert("Name should contain only letters.");
-      return false;
-    }
-
-    if (!phoneRegex.test(contact.phone)) {
-      alert("Phone number should contain exactly 9 digits.");
-      return false;
-    }
-
-    if (!contact.icon) {
-      alert("Please select an icon.");
-      return false;
-    }
-
-    return true;
+  const handleColorChange = (color) => {
+    setContact((prevContact) => ({
+      ...prevContact,
+      color: color.hex,
+    }));
   };
 
+  // const validateContact = () => {
+  //   const nameRegex = /^[A-Za-z\s]+$/;
+  //   const phoneRegex = /^\d{9}$/;
+
+  //   if (!nameRegex.test(contact.name)) {
+  //     alert("Name should contain only letters.");
+  //     return false;
+  //   }
+
+  //   if (!phoneRegex.test(contact.phone)) {
+  //     alert("Phone number should contain exactly 9 digits.");
+  //     return false;
+  //   }
+
+  //   if (!contact.icon) {
+  //     alert("Please select an icon.");
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
 
   return (
     <form className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
       <h2 className="capitalize font-bold pt-5 pb-3">add new contact</h2>
-
       <div className="form-control mb-4">
         <label className="label">
           <span className="label-text font-bold ">Select Icon</span>
@@ -116,64 +124,77 @@ const AddContactForm = ({ people, setPeople }) => {
           </button>
         </div>
       </div>
-      <div className="form-control mb-4">
-        <label className="label">
-          <span className="label-text">Name</span>
-        </label>
-        <input
-          type="text"
-          name="name"
-          value={contact.name}
-          onChange={handleChange}
-          placeholder="Enter name"
-          className="input input-bordered w-full"
-          required
-        />
-      </div>
-      <div className="form-control mb-4">
-        <label className="label">
-          <span className="label-text">Phone Number</span>
-        </label>
-        <div className="flex items-center">
-          <label className=" input input-bordered flex items-center gap-2">
-            <span className="font-bold">+593</span>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <div className="form-control mb-4">
+            <label className="label">
+              <span className="label-text font-bold ">Name</span>
+            </label>
             <input
-              type="tel"
-              name="phone"
-              value={contact.phone}
+              type="text"
+              name="name"
+              value={contact.name}
               onChange={handleChange}
-              placeholder="987654321"
-              className="grow"
+              placeholder="Enter name"
+              className="input input-bordered w-full"
               required
             />
+          </div>
+          <div className="form-control mb-4">
+            <label className="label">
+              <span className="label-text font-bold ">Phone Number</span>
+            </label>
+            <div className="flex items-center">
+              <label className="input input-bordered flex items-center gap-2">
+                <span className="font-bold">+593</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={contact.phone}
+                  onChange={handleChange}
+                  placeholder="987654321"
+                  className=" w-full"
+                  required
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-control mb-4 ">
+          <label className="label">
+            <span className="label-text font-bold ">Select Color</span>
           </label>
+          <BlockPicker
+            width="100%"
+            colors={[
+              "#68CCCA",
+              "#73D8FF",
+              "#AEA1FF",
+              "#009CE0",
+              "#7B64FF",
+              "#FA28FF",
+              "#1E90FF",
+              "#9370DB",
+              "#8A2BE2",
+              "#DA70D6",
+            ]}
+            triangle="hide"
+            color={contact.color}
+            onChangeComplete={handleColorChange}
+          />
         </div>
       </div>
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (validateContact()) {
-            const existingContactIndex = people.findIndex(
-              (person) => person.phone === contact.phone
-            );
-            if (existingContactIndex !== -1) {
-              const updatedPeople = [...people];
-              updatedPeople[existingContactIndex] = contact;
-              setPeople(updatedPeople);
-            } else {
-              if (
-                window.confirm(
-                  "Contact with this phone number already exists. Do you want to update it?"
-                )
-              ) {
-                setPeople([...people, contact]);
-              }
-            }
-            setContact({ name: "", phone: "" });
+          if (validateContact(contact)) {
+            setPeople([...people, contact]);
+            setContact({ name: "", phone: "", color: "#fff" });
           }
         }}
         type="submit"
-        className="btn btn-primary w-full"
+        className="btn btn-success w-full"
       >
         Add Contact
       </button>
