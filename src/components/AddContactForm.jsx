@@ -1,35 +1,19 @@
 import { useState } from "react";
-import { FaD } from "react-icons/fa6";
-import { MdEdit } from "react-icons/md";
-import { FaTrash } from "react-icons/fa";
-
 //icons for the contacts
 import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 
-const AddContact = ({ people, setPeople }) => {
+const AddContactForm = ({ people, setPeople }) => {
   const [contact, setContact] = useState({
     name: "",
     phone: "",
   });
-
-  const editContact = (person) => {
-    setContact(person);
-    // setPeople(people.filter((p) => p !== person));
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContact((prevContact) => ({
       ...prevContact,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Contact added:", contact);
-    setPeople([...people, contact]);
   };
 
   const validateContact = () => {
@@ -54,58 +38,9 @@ const AddContact = ({ people, setPeople }) => {
     return true;
   };
 
-  console.log(people);
 
   return (
     <form className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center uppercase ">
-        registered contacts
-      </h2>
-
-      <div className="border-2 border-gray-400 rounded-md p-5">
-        <ul className="space-y-2 max-h-48 p-2 overflow-scroll ">
-          {people.length === 0 ? (
-            <p className="text-center font-light">No contacts registered</p>
-          ) : (
-            people.map((person, index) => (
-              <li
-                key={index}
-                className="flex p-2 shadow-md border-2 border-gray-300 rounded-md justify-between items-center"
-              >
-                <div className="avatar">
-                  <div className="border-2 p-2 rounded-full">{person.icon}</div>
-                </div>{" "}
-                <p>{person.name}</p>
-                <div className="flex">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      editContact(person);
-                    }}
-                    className="btn btn-outline mr-2"
-                  >
-                    <MdEdit />
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (
-                        confirm("Are you sure you want to delete this contact?")
-                      ) {
-                        setPeople(
-                          people.filter((person) => person !== people[index])
-                        );
-                      }
-                    }}
-                    className="btn btn-outline  "
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
-              </li>
-            ))
-          )}
-        </ul>
-      </div>
       <h2 className="capitalize font-bold pt-5 pb-3">add new contact</h2>
 
       <div className="form-control mb-4">
@@ -226,7 +161,13 @@ const AddContact = ({ people, setPeople }) => {
               updatedPeople[existingContactIndex] = contact;
               setPeople(updatedPeople);
             } else {
-              setPeople([...people, contact]);
+              if (
+                window.confirm(
+                  "Contact with this phone number already exists. Do you want to update it?"
+                )
+              ) {
+                setPeople([...people, contact]);
+              }
             }
             setContact({ name: "", phone: "" });
           }
@@ -240,4 +181,4 @@ const AddContact = ({ people, setPeople }) => {
   );
 };
 
-export default AddContact;
+export default AddContactForm;

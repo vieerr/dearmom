@@ -25,6 +25,8 @@ const Addressee = ({
 
   const currentContact = contacts[currentContactIndex];
 
+  console.log(people.length);
+
   return (
     <>
       <div className=" justify-evenly gap-6 hidden md:flex">
@@ -45,7 +47,9 @@ const Addressee = ({
           <IoIosWoman size={35} className="inline-block" /> MOM
         </button>
         <button
-          className={`btn  text-white bg-gray-400 mt-4 btn-lg w-1/3 m-auto`}
+          data-tip="Ask your parent for help"
+          className={`btn  text-white bg-gray-400 mt-4 btn-lg w-1/3 m-auto ${
+            people.length === 0 && "btn-disabled"} lg:tooltip` }
           onClick={() => {
             document.getElementById("my_modal_2").showModal();
           }}
@@ -60,7 +64,7 @@ const Addressee = ({
             className={" btn btn-secondary btn-lg "}
             onClick={handleClick}
           >
-            <span className="flex" >
+            <span className="flex">
               {currentContact.icon}
               {currentContact.name}
             </span>

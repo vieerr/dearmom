@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import AddContact from "./AddContact";
+import EditContact from "./EditContact";
 const Navbar = ({ setPeople, people }) => {
   const { loginWithRedirect, loginWithPopup, isAuthenticated, user, logout } =
     useAuth0();
@@ -16,7 +16,7 @@ const Navbar = ({ setPeople, people }) => {
       </div>
       <dialog id="for-parents" className="modal">
         <div className="modal-box">
-          <AddContact setPeople={setPeople} people={people} />
+          <EditContact setPeople={setPeople} people={people} />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

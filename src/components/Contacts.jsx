@@ -1,5 +1,3 @@
-import { TbManFilled } from "react-icons/tb";
-
 const Contacts = ({ people, sendLetter, letterRef }) => {
   return (
     <div className="modal-box">
@@ -11,7 +9,8 @@ const Contacts = ({ people, sendLetter, letterRef }) => {
             onClick={() => sendLetter(letterRef, "593" + person.phone)}
             className="btn"
           >
-            <TbManFilled size={35} className="inline-block" /> {person.name}
+            {person.icon}
+            {person.name}
           </button>
         ))}
       </div>
