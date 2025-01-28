@@ -4,31 +4,20 @@ import getBackendURL from "../utils/getBackendURL";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-// TODO USE COLORS FROM PEOPLE OBJECT
 const Contacts = ({ setAudio, setAddressee, people }) => {
   const [selectedContact, setSelectedContact] = useState(null);
-  // const [text, setText] = useState("");
   let text = "";
-  // const handleAddressee = (person) => {
-  //   setSelectedContact(person);
-  //   setAddressee(person);
-  //   // handleAudio(person);
-  // };
-
-  // useEffect(() => {
-  //   setText("Se enviará la carta a " + selectedContact?.name);
-  // }, [selectedContact]);
 
   const fetchAudio = async () => {
     const { data } = await axios.post(
       getBackendURL() + "/synthesize",
       { text },
-      { responseType: "blob" } // Fetch the response as a Blob
+      { responseType: "blob" }
     );
     return data;
   };
 
-  const { data, refetch, error, isSuccess } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["audio"],
     queryFn: fetchAudio,
     staleTime: Infinity,

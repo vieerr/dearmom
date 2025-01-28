@@ -1,20 +1,20 @@
 import "regenerator-runtime/runtime";
 import { useState, useEffect, useRef } from "react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+import SpeechRecognition from "react-speech-recognition";
 
-const MicrophoneControl = ({ setTranscript }) => {
-  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
-
+// TODO refactor
+const MicrophoneControl = ({
+  transcript,
+  setTranscript,
+  browserSupportsSpeechRecognition,
+}) => {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
   const [listening, setListening] = useState(false);
-  
+
   const [timeLeft, setTimeLeft] = useState(30);
   const timerIntervalRef = useRef(null);
 

@@ -15,6 +15,7 @@ import TextToSpeech from "./TextToSpeech";
 import ThemeButtons from "./ThemeButtons";
 import OthersModal from "./OthersModal";
 import getBackendURL from "../utils/getBackendURL";
+import { useSpeechRecognition } from "react-speech-recognition";
 
 const LetterContainer = ({ people }) => {
   const [letter, setLetter] = useState("");
@@ -82,6 +83,9 @@ const LetterContainer = ({ people }) => {
     setAudio(mom);
   };
 
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition, } =
+    useSpeechRecognition();
+
   return (
     <>
       {audio && <audio ref={audioRef} src={audio}></audio>}
@@ -96,7 +100,13 @@ const LetterContainer = ({ people }) => {
             theme={theme}
           />
           <div className="flex w-full justify-evenly mt-5 md:mt-0">
-            <MicrophoneControl setTranscript={setLetter} />
+            <MicrophoneControl
+              transcript={transcript}
+              browserSupportsSpeechRecognition={
+                browserSupportsSpeechRecognition
+              }
+              setTranscript={setLetter}
+            />
             <TextToSpeech letter={letter} />
           </div>
           <div className="hidden md:block">
@@ -115,7 +125,7 @@ const LetterContainer = ({ people }) => {
                 saveAsImage={saveAsImage}
                 sendLetterToWhatsApp={sendLetterToWhatsApp}
                 setAudio={setAudio}
-                setLetter={setLetter}
+                resetLetter={resetTranscript}
               />
             </div>
           </div>
@@ -140,11 +150,11 @@ const LetterContainer = ({ people }) => {
           saveAsImage={saveAsImage}
           sendLetterToWhatsApp={sendLetterToWhatsApp}
           setAudio={setAudio}
-          setLetter={setLetter}
+          resetLetter={resetTranscript}
         />
       </div>
       <OthersModal
-      setAudio={setAudio}
+        setAudio={setAudio}
         setAddressee={setAddressee}
         letterRef={letterRef}
         sendLetter={sendLetterToWhatsApp}

@@ -8,7 +8,7 @@ const LetterActions = ({
   letter,
   saveAsImage,
   sendLetterToWhatsApp,
-  setLetter,
+  resetLetter,
   setAudio,
 }) => {
   return (
@@ -40,7 +40,7 @@ const LetterActions = ({
           letter.length > 1 ? "" : "btn-disabled"
         } bg-red-500 text-white mt-4 btn-lg  m-auto`}
         onClick={() => {
-          setLetter("");
+          resetLetter("");
           setAudio(del);
         }}
       >
