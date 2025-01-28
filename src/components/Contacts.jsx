@@ -48,25 +48,27 @@ const Contacts = ({ setAudio, setAddressee, people }) => {
       </form>
       <h3 className="font-bold text-lg">Other contacts</h3>
       <div className="flex flex-col gap-5 p-7">
-        {people.map((person, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              handleAudio(person);
-            }}
-            style={
-              selectedContact?.name === person.name
-                ? { backgroundColor: "green" }
-                : { backgroundColor: person.color }
-            }
-            className="btn btn-lg text-white justify-evenly"
-          >
-            <div className="avatar">
-              <div className="border-2 p-2 rounded-full">{person.icon}</div>
-            </div>
-            <p className="text-xl">{person.name}</p>
-          </button>
-        ))}
+        <form method="dialog" className="w-full flex flex-col gap-5">
+          {people.map((person, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                handleAudio(person);
+              }}
+              style={
+                selectedContact?.name === person.name
+                  ? { backgroundColor: "green" }
+                  : { backgroundColor: person.color }
+              }
+              className="btn btn-lg text-white justify-evenly"
+            >
+              <div className="avatar">
+                <div className="border-2 p-2 rounded-full">{person.icon}</div>
+              </div>
+              <p className="text-xl">{person.name}</p>
+            </button>
+          ))}
+        </form>
       </div>
     </div>
   );
