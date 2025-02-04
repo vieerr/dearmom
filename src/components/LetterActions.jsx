@@ -17,7 +17,7 @@ const LetterActions = ({
         className={`btn ${
           letter.length > 1 ? "" : "btn-disabled"
         } btn-success text-white mt-4 btn-lg  m-auto`}
-        onClick={saveAsImage}
+        onClick={() => {saveAsImage(addressee?.phone)}}
       >
         <FaDownload size={35} className="inline-block" /> SAVE
       </button>

@@ -17,7 +17,7 @@ import OthersModal from "./OthersModal";
 import getBackendURL from "../utils/getBackendURL";
 import { useSpeechRecognition } from "react-speech-recognition";
 
-const LetterContainer = ({ people }) => {
+const LetterContainer = ({ people, setLetters }) => {
   const [letter, setLetter] = useState("");
   const [font, setFont] = useState("");
   const [addressee, setAddressee] = useState(people[0]);
@@ -36,7 +36,31 @@ const LetterContainer = ({ people }) => {
 
   const letterRef = useRef();
 
-  const saveAsImage = async () => {
+  const getCurrentDate = () => {
+    const today = new Date();
+    const currentDate = {
+      day: today.getDate().toString().padStart(2, '0'),
+      month: (today.getMonth() + 1).toString().padStart(2, '0'),
+      year: today.getFullYear(),
+    };
+
+    return currentDate.day + "/" + currentDate.month + "/" + currentDate.year;
+  }
+
+  const addToRecord = (phone, dataUrl) => {
+    const personSended = people.find((person) => person.phone === phone);
+    const currentDate = getCurrentDate();
+    const letterSended = {
+      sendedDate:currentDate,
+      name:personSended.name,
+      phone:"+593 " + personSended.phone,
+      content: dataUrl
+    }
+
+    setLetters(prevLetters => [...prevLetters, letterSended]);
+  };
+
+  const saveAsImage = async (phone) => {
     setAudio(save);
     if (letterRef.current) {
       const dataUrl = await toPng(letterRef.current);
@@ -44,6 +68,8 @@ const LetterContainer = ({ people }) => {
       link.download = "letter.png";
       link.href = dataUrl;
       link.click();
+
+      addToRecord(phone, dataUrl);
     }
   };
 
@@ -67,6 +93,8 @@ const LetterContainer = ({ people }) => {
         `Here's a letter from your child: ${imageUrl}`
       );
       window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+
+      addToRecord(phone, dataUrl);
     } catch (error) {
       console.error("Error uploading image:", error.response?.data || error);
     }
