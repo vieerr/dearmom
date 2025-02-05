@@ -1,6 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import EditContact from "./EditContact";
-const Navbar = ({ setPeople, people }) => {
+import LetterRecord from "./LetterRecord";
+const Navbar = ({ setPeople, people, setLetters, letters }) => {
   const { loginWithRedirect, loginWithPopup, isAuthenticated, user, logout } =
     useAuth0();
 
@@ -22,7 +23,23 @@ const Navbar = ({ setPeople, people }) => {
           <button>close</button>
         </form>
       </dialog>
+      <dialog id="letter-record" className="modal">
+        <div className="modal-box">
+          <LetterRecord setLetters={setLetters} letters={letters}/>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <div className="navbar-end">
+        <button
+          onClick={() => document.getElementById("letter-record").showModal()}
+          className={`btn btn-outline md:btn-lg md:mr-36 m-2 ${
+            !isAuthenticated && "btn-disabled"
+          }`}
+        >
+          RECORD
+        </button>
         <button
           onClick={() => document.getElementById("for-parents").showModal()}
           className={`btn btn-outline md:btn-lg md:mr-36 m-2 ${
