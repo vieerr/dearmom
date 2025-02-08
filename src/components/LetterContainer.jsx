@@ -16,6 +16,7 @@ import ThemeButtons from "./ThemeButtons";
 import OthersModal from "./OthersModal";
 import getBackendURL from "../utils/getBackendURL";
 import { useSpeechRecognition } from "react-speech-recognition";
+import moment from "moment";
 
 const LetterContainer = ({ people, setLetters }) => {
   const [letter, setLetter] = useState("");
@@ -36,22 +37,10 @@ const LetterContainer = ({ people, setLetters }) => {
 
   const letterRef = useRef();
 
-  const getCurrentDate = () => {
-    const today = new Date();
-    const currentDate = {
-      day: today.getDate().toString().padStart(2, '0'),
-      month: (today.getMonth() + 1).toString().padStart(2, '0'),
-      year: today.getFullYear(),
-    };
-
-    return currentDate.day + "/" + currentDate.month + "/" + currentDate.year;
-  }
-
   const addToRecord = (phone, dataUrl) => {
     const personSended = people.find((person) => person.phone === phone);
-    const currentDate = getCurrentDate();
     const letterSended = {
-      sendedDate:currentDate,
+      sendedDate: moment().format('DD/MM/YYYY'),
       name:personSended.name,
       phone:"+593 " + personSended.phone,
       content: dataUrl
