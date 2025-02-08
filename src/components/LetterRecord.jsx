@@ -23,8 +23,8 @@ const LetterRecord = ({letters,setLetters}) => {
 	
 	return (
 		<>
-			<div className="border-2 border-gray-400 rounded-md p-5">
-				<ul className="space-y-7 max-h-62 p-2 overflow-y-scroll">
+			<div className="p-3">
+				<ul className="space-y-7 max-h-62 p-2">
 					{letters.length === 0 ? (
 						<p className="text-center font-light">No letters were sended yet</p>
 					) : (

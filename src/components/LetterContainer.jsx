@@ -46,7 +46,7 @@ const LetterContainer = ({ people, setLetters }) => {
       content: dataUrl
     }
 
-    setLetters(prevLetters => [...prevLetters, letterSended]);
+    setLetters(prevLetters => [letterSended, ...prevLetters]);
   };
 
   const saveAsImage = async (phone) => {

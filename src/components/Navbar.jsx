@@ -16,7 +16,11 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         />
       </div>
       <dialog id="for-parents" className="modal">
-        <div className="modal-box">
+        <div className="modal-box pt-9">
+          <form method="dialog">
+            {}
+            <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">✕</button>
+          </form>
           <EditContact setPeople={setPeople} people={people} />
         </div>
         <form method="dialog" className="modal-backdrop">
@@ -24,7 +28,11 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         </form>
       </dialog>
       <dialog id="letter-record" className="modal">
-        <div className="modal-box">
+        <div className="modal-box pr-0">
+          <form method="dialog">
+            {}
+            <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">✕</button>
+          </form>
           <LetterRecord setLetters={setLetters} letters={letters}/>
         </div>
         <form method="dialog" className="modal-backdrop">

@@ -28,7 +28,7 @@ const Contacts = ({ setAudio, setAddressee, people }) => {
     if (person) {
       setSelectedContact(person);
       setAddressee(person);
-      text = "Se enviará la carta a " + person.name;
+      text = "Carta para " + person.name;
       await refetch();
     }
   };
