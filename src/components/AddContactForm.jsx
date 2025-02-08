@@ -3,6 +3,7 @@ import { useState } from "react";
 import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import { BlockPicker } from "react-color";
+import ColorPicker from "./ColorPicker";
 
 const AddContactForm = ({ validateContact, people, setPeople }) => {
   const [contact, setContact] = useState({
@@ -23,6 +24,13 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
     setContact((prevContact) => ({
       ...prevContact,
       color: color.hex,
+    }));
+  };
+
+  const handleColorPicker = (selectedColor) => {
+    setContact((prevContact) => ({
+      ...prevContact,
+      color: selectedColor
     }));
   };
 
@@ -164,6 +172,7 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
         <div className="form-control mb-4 ">
           <label className="label">
             <span className="label-text font-bold ">Select Color</span>
+            <ColorPicker onChange={handleColorPicker}/>
           </label>
           <BlockPicker
             width="100%"
