@@ -1,4 +1,4 @@
-import { FaHeart, FaSmile, FaFrown } from "react-icons/fa";
+import { FaHeart, FaSmile, FaFrown, FaHome } from "react-icons/fa";
 import { FaSun, FaBook } from "react-icons/fa";
 const themeStyles = {
     love: {
@@ -46,13 +46,13 @@ const themeStyles = {
         ),
     },
     scholar: {
-        card: "bg-gray-100 border-gray-300",
-        text: "text-gray-800",
-        signature: "text-gray-700",
+        card: "bg-purple-100 border-purple-300",
+        text: "text-purple-800",
+        signature: "text-purple-700",
         decorations: (
             <>
-                <FaBook className="absolute top-2 left-2 text-gray-300 opacity-60 text-xl" />
-                <FaBook className="absolute bottom-2 right-2 text-gray-300 opacity-60 text-xl" />
+                <FaBook className="absolute top-2 left-2 text-purple-300 opacity-60 text-xl" />
+                <FaBook className="absolute bottom-2 right-2 text-purple-300 opacity-60 text-xl" />
             </>
         ),
     },
@@ -60,7 +60,12 @@ const themeStyles = {
         card: "bg-white border-gray-300",
         text: "text-black",
         signature: "text-black",
-        decorations: null,
+        decorations: (
+            <>
+                <FaHome className="absolute top-2 left-2 text-gray-300 opacity-60 text-xl" />
+                <FaHome className="absolute bottom-2 right-2 text-gray-300 opacity-60 text-xl" />
+            </>
+        ),
     },
 };
 

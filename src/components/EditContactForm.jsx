@@ -8,6 +8,7 @@ import {
   MdWoman,
 } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
+import ColorPicker from "./ColorPicker";
 
 const EditContactForm = ({
   contact,
@@ -38,6 +39,13 @@ const EditContactForm = ({
     setContact((prevContact) => ({
       ...prevContact,
       color: color.hex,
+    }));
+  };
+
+  const handleColorPicker = (selectedColor) => {
+    setContact((prevContact) => ({
+      ...prevContact,
+      color: selectedColor
     }));
   };
 
@@ -120,6 +128,7 @@ const EditContactForm = ({
         <div className="form-control mb-4">
           <label className="label">
             <span className="label-text font-bold ">Select Color</span>
+            <ColorPicker onChange={handleColorPicker} defaultColor={contact.color}/>
           </label>
           <BlockPicker
             width="100%"

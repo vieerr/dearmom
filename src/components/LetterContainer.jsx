@@ -37,7 +37,7 @@ const LetterContainer = ({ people, setLetters }) => {
 
   const letterRef = useRef();
 
-  const addToRecord = (phone, dataUrl) => {
+  const addToRecord = (phone, dataUrl) => {    
     const personSended = people.find((person) => person.phone === phone);
     const letterSended = {
       sendedDate: moment().format('DD/MM/YYYY'),
@@ -46,7 +46,13 @@ const LetterContainer = ({ people, setLetters }) => {
       content: dataUrl
     }
 
-    setLetters(prevLetters => [letterSended, ...prevLetters]);
+    setLetters(prevLetters => {
+      if(prevLetters.some(letter => letter.content === dataUrl)){
+        return prevLetters;
+      }else{
+        return [letterSended, ...prevLetters]
+      }
+    });
   };
 
   const saveAsImage = async (phone) => {
