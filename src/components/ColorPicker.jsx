@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Palette } from "lucide-react"; // Usa Lucide React para iconos
 
-const ColorPicker = ({ onChange, defaultColor = "#ccc" }) => {
+const ColorPicker = ({ onChange, defaultColor = "#cccccc" }) => {
   const [color, setColor] = useState(defaultColor);
   const colorInputRef = useRef(null);
 

@@ -23,10 +23,10 @@ function App() {
   const [letters, setLetters] = useState([]);
 
   return (
-    <div className="w-screen">
+    <>
       <Navbar setPeople={setPeople} people={people} setLetters={setLetters} letters={letters}/>
       <LetterContainer people={people} setLetters={setLetters}/>
-    </div>
+    </>
   );
 }
 

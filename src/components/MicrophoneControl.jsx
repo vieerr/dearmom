@@ -1,7 +1,9 @@
 import "regenerator-runtime/runtime";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import SpeechRecognition from "react-speech-recognition";
+import finishTime from "../audios/finishtime.mp3";
+import useSound from 'use-sound';
 
 // TODO refactor
 const MicrophoneControl = ({
@@ -13,39 +15,38 @@ const MicrophoneControl = ({
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
+  const maxDuration = 30;
+  const [timeLeft, setTimeLeft] = useState(maxDuration);
+  const timerProgress = ((maxDuration - timeLeft) / maxDuration) * 100;
+
   const [listening, setListening] = useState(false);
 
-  const [timeLeft, setTimeLeft] = useState(30);
-  const timerIntervalRef = useRef(null);
+  const [playLimitTimeSound] = useSound(finishTime);
 
-  const startTimer = () => {
-    setTimeLeft(30);
-    timerIntervalRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerIntervalRef.current);
-          SpeechRecognition.stopListening();
-          setListening(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
+  useEffect(() => {
+    if(!listening || timeLeft === 0 ) {
+      setTimeout(()=>{
+        SpeechRecognition.stopListening();
+        setListening(false);
+        setTimeLeft(maxDuration);
+        if(timeLeft === 0) playLimitTimeSound();        
+      },500);
+      return;
+    };
 
-  const stopTimer = () => {
-    if (timerIntervalRef.current) {
-      clearInterval(timerIntervalRef.current);
-    }
-  };
+    const timer = setTimeout(() => {
+      setTimeLeft(timeLeft - 1);
+    },1000);
 
-  const toggleListening = () => {
+    return () => clearTimeout(timer);
+  },[timeLeft,listening]);
+
+  const toggleListening = () => { 
     if (listening) {
       SpeechRecognition.stopListening();
-      stopTimer();
+      setTimeLeft(maxDuration);
     } else {
       SpeechRecognition.startListening({ language: "es-EC", continuous: true });
-      startTimer();
     }
     setListening(!listening);
   };
@@ -53,17 +54,6 @@ const MicrophoneControl = ({
   useEffect(() => {
     setTranscript(transcript);
   }, [transcript, setTranscript]);
-
-  useEffect(() => {
-    // Cleanup interval on component unmount
-    return () => {
-      if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current);
-      }
-    };
-  }, []);
-
-  const timerProgress = ((30 - timeLeft) / 30) * 100;
 
   return (
     <div className="flex flex-col items-center gap-4 relative">

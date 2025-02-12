@@ -16,7 +16,7 @@ const Addressee = ({ people, setDadLetter, setMomLetter }) => {
     <>
       <div className=" justify-evenly gap-6 hidden md:flex">
         <button
-          className={` btn  bg-blue-400 btn-success  text-white mt-4 btn-lg w-1/3 m-auto`}
+          className={` btn  bg-blue-400 text-white mt-4 btn-lg w-1/3 m-auto`}
           onClick={() => {
             setDadLetter();
           }}
@@ -48,6 +48,10 @@ const Addressee = ({ people, setDadLetter, setMomLetter }) => {
         <div className="flex gap-4 justify-center mt-4 flex-col md:flex-row">
           <button
             className={" btn btn-secondary btn-lg "}
+            style={{ 
+              backgroundColor: currentContact.color,
+              borderColor: currentContact.color
+             }}
             onClick={handleClick}
           >
             <span className="flex">
