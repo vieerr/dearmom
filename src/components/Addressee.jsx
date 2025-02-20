@@ -1,13 +1,58 @@
 import { useState } from "react";
 import { BsFillPersonBadgeFill } from "react-icons/bs";
 import { IoIosMan, IoIosWoman } from "react-icons/io";
+import { useQuery } from "@tanstack/react-query";
+import getBackendURL from "../utils/getBackendURL";
+import { useEffect } from "react";
+import axios from "axios";
 
-const Addressee = ({ people, setDadLetter, setMomLetter }) => {
+const Addressee = ({setAudio, people, setDadLetter, setMomLetter, setAddressee }) => {
   const [currentContactIndex, setCurrentContactIndex] = useState(0);
+  let text = "";
+
+  const fetchAudio = async () => {
+    const { data } = await axios.post(
+      getBackendURL() + "/synthesize",
+      { text },
+      { responseType: "blob" }
+    );
+    return data;
+  };
+
+  const { data, refetch } = useQuery({
+    queryKey: ["audio"],
+    queryFn: fetchAudio,
+    staleTime: Infinity,
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setAudio(URL.createObjectURL(data));
+    }
+  }, [data]);
+
+  const handleAudio = async (person) => {
+    if (person) {
+      setAddressee(person);
+      text = "Carta para " + person.name;
+
+      if(person.name === 'dad'){
+        text = "Carta para papá";
+      }
+
+      if(person.name === 'mom'){
+        text = "Carta para mamá";
+      }
+      
+      await refetch();
+    }
+  };
 
   const handleClick = () => {
     const nextContactIndex = (currentContactIndex + 1) % people.length;
     setCurrentContactIndex(nextContactIndex);
+    handleAudio(people[nextContactIndex]);
   };
 
   const currentContact = people[currentContactIndex];
