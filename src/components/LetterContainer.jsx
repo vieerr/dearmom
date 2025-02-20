@@ -134,9 +134,11 @@ const LetterContainer = ({ people, setLetters }) => {
           </div>
           <div className="hidden md:block">
             <Addressee
+              setAudio={setAudio}
               people={people}
               sendLetterToWhatsApp={sendLetterToWhatsApp}
               letterRef={letterRef}
+              setAddressee={setAddressee}
               setDadLetter={setDadLetter}
               setMomLetter={setMomLetter}
             />
@@ -156,9 +158,11 @@ const LetterContainer = ({ people, setLetters }) => {
         <FontButtons setAudio={setAudio} setFont={setFont} />
         <div className="md:hidden">
           <Addressee
+            setAudio={setAudio}
             people={people}
             sendLetterToWhatsApp={sendLetterToWhatsApp}
             letterRef={letterRef}
+            setAddressee={setAddressee}
             setDadLetter={setDadLetter}
             setMomLetter={setMomLetter}
           />
