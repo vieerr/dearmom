@@ -7,7 +7,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
   const { loginWithRedirect, loginWithPopup, isAuthenticated, user, logout } =
     useAuth0();
 
-  const [buttonsEnable,setButtonsEnable] = useState(true);
+  const [buttonsEnable, setButtonsEnable] = useState(true);
 
   const toggleModalRef = useRef(null);
 
@@ -17,20 +17,20 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
     }
   };
 
-  const handleToggleChange = (event) =>{
-    if(!buttonsEnable){
+  const handleToggleChange = (event) => {
+    if (!buttonsEnable) {
       document.getElementById("toggle-pannel-buttons").showModal();
-      if(!buttonsEnable){
+      if (!buttonsEnable) {
         event.preventDefault();
         setButtonsEnable(false);
       }
-    } else{
+    } else {
       setButtonsEnable(false);
     }
-  }
+  };
 
   return (
-    <>        
+    <>
       <div className="navbar bg-base-100 border-b border-base-500">
         <div className="flex-1">
           <img
@@ -43,8 +43,10 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         <dialog id="for-parents" className="modal">
           <div className="modal-box pt-9">
             <form method="dialog">
-              { }
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">✕</button>
+              {}
+              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+                ✕
+              </button>
             </form>
             <EditContact setPeople={setPeople} people={people} />
           </div>
@@ -55,8 +57,10 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         <dialog id="letter-record" className="modal">
           <div className="modal-box px-0">
             <form method="dialog">
-              { }
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">✕</button>
+              {}
+              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+                ✕
+              </button>
             </form>
             <LetterRecord setLetters={setLetters} letters={letters} />
           </div>
@@ -64,44 +68,59 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
             <button>close</button>
           </form>
         </dialog>
-        <dialog id="toggle-pannel-buttons" className="modal" ref={toggleModalRef}>
+        <dialog
+          id="toggle-pannel-buttons"
+          className="modal"
+          ref={toggleModalRef}
+        >
           <div className="modal-box pt-9">
             <form method="dialog">
-              { }
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">✕</button>
+              {}
+              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+                ✕
+              </button>
             </form>
-            <ParentToggle 
-              setButtonsEnable={setButtonsEnable} 
-              closeToggleModal={closeToggleModal} 
+            <ParentToggle
+              setButtonsEnable={setButtonsEnable}
+              closeToggleModal={closeToggleModal}
             />
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
           </form>
         </dialog>
+
         <div className="flex-none">
-        <label className="p-2">Cuenta innactiva</label>
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <input type="checkbox" className="toggle toggle-success" 
-              disabled={!isAuthenticated && true}
-              defaultChecked
-              onChange={handleToggleChange} 
-              checked={buttonsEnable}/>
-            </label>
+          <div className="hidden md:flex">
+            <label className="p-2">Cuenta innactiva</label>
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="toggle toggle-success"
+                  disabled={!isAuthenticated && true}
+                  defaultChecked
+                  onChange={handleToggleChange}
+                  checked={buttonsEnable}
+                />
+              </label>
+            </div>
+            <label className="p-2">Cuenta activa</label>
           </div>
-          <label className="p-2">Cuenta activa</label>
+
           <button
             onClick={() => document.getElementById("letter-record").showModal()}
-            className={`btn btn-outline md:btn-lg m-2 ${(!isAuthenticated || !buttonsEnable) && "btn-disabled"
-              }`}
+            className={`btn btn-outline md:btn-lg m-2 ${
+              (!isAuthenticated || !buttonsEnable) && "btn-disabled"
+            }`}
           >
             RECORD
           </button>
           <button
             onClick={() => document.getElementById("for-parents").showModal()}
-            className={`btn btn-outline md:btn-lg m-2 ${(!isAuthenticated || !buttonsEnable) && "btn-disabled"
-              }`}
+            className={`btn btn-outline md:btn-lg m-2 ${
+              (!isAuthenticated || !buttonsEnable) && "btn-disabled"
+            }`}
           >
             FOR PARENTS
           </button>
@@ -120,7 +139,9 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
                     },
                   })
                 }
-                className={`btn btn-sm btn-error btn-outline mx-4 ${!buttonsEnable && "btn-disabled"}`}
+                className={`btn btn-sm btn-error btn-outline mx-4 ${
+                  !buttonsEnable && "btn-disabled"
+                }`}
               >
                 Log out
               </button>
