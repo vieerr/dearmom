@@ -1,7 +1,7 @@
-import { getUserLocationAndDate } from "../utils/LetterInfo";
 import { useEffect } from "react";
 import { useState } from "react";
 import themeStyles from "../utils/themeStyles.jsx";
+import { getUserLocationAndDate } from "../utils/LetterInfo.js";
 
 const Letter = ({ transcript, theme, font, letterRef, addressee }) => {
   const [location, setLocation] = useState(null);
