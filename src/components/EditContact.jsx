@@ -1,14 +1,30 @@
 import { useState } from "react";
-import { MdEdit } from "react-icons/md";
+import {
+  MdEdit,
+  MdElderly,
+  MdElderlyWoman,
+  MdMan,
+  MdWoman,
+} from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import AddContactForm from "./AddContactForm";
 import EditContactForm from "./EditContactForm";
+import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 
 const EditContact = ({ people, setPeople }) => {
   const [contact, setContact] = useState({
     name: "",
     phone: "",
   });
+
+  const icons = {
+    grandpa: <MdElderly size={35} />,
+    grandma: <MdElderlyWoman size={35} />,
+    man: <MdMan size={35} />,
+    woman: <MdWoman size={35} />,
+    "m-kid": <TbManFilled size={35} />,
+    "f-kid": <TbWomanFilled size={35} />,
+  };
 
   const [editPanelVisibility, setEditPanelVisibility] = useState(false);
 
@@ -53,7 +69,9 @@ const EditContact = ({ people, setPeople }) => {
                 className="capitalize flex p-2 shadow-md text-white border-2 border-gray-300 rounded-md justify-between items-center"
               >
                 <div className="avatar">
-                  <div className="border-2 p-2 rounded-full">{person.icon}</div>
+                  <div className="border-2 p-2 rounded-full">
+                    {icons[person.icon]}
+                  </div>
                 </div>
                 <p>{person.name}</p>
                 <div className="flex">
@@ -71,11 +89,11 @@ const EditContact = ({ people, setPeople }) => {
                       onClick={() => {
                         if (
                           confirm(
-                            "Are you sure you want to delete this contact?"
+                            "Are you sure you want to delete this contact?",
                           )
                         ) {
                           setPeople(
-                            people.filter((person) => person !== people[index])
+                            people.filter((person) => person !== people[index]),
                           );
                         }
                       }}

@@ -3,16 +3,27 @@ import { useState } from "react";
 import getBackendURL from "../utils/getBackendURL";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
+import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 
 const Contacts = ({ setAudio, setAddressee, people }) => {
   const [selectedContact, setSelectedContact] = useState(null);
   let text = "";
 
+  const icons = {
+    grandpa: <MdElderly size={35} />,
+    grandma: <MdElderlyWoman size={35} />,
+    man: <MdMan size={35} />,
+    woman: <MdWoman size={35} />,
+    "m-kid": <TbManFilled size={35} />,
+    "f-kid": <TbWomanFilled size={35} />,
+  };
+
   const fetchAudio = async () => {
     const { data } = await axios.post(
       getBackendURL() + "/synthesize",
       { text },
-      { responseType: "blob" }
+      { responseType: "blob" },
     );
     return data;
   };
@@ -63,7 +74,9 @@ const Contacts = ({ setAudio, setAddressee, people }) => {
               className="btn btn-lg text-white justify-evenly"
             >
               <div className="avatar">
-                <div className="border-2 p-2 rounded-full">{person.icon}</div>
+                <div className="border-2 p-2 rounded-full">
+                  {icons[person.icon]}
+                </div>
               </div>
               <p className="text-xl">{person.name}</p>
             </button>

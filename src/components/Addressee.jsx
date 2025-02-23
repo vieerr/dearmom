@@ -5,16 +5,31 @@ import { useQuery } from "@tanstack/react-query";
 import getBackendURL from "../utils/getBackendURL";
 import { useEffect } from "react";
 import axios from "axios";
+import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
+import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 
-const Addressee = ({setAudio, people, setDadLetter, setMomLetter, setAddressee }) => {
+const Addressee = ({
+  setAudio,
+  people,
+  setDadLetter,
+  setMomLetter,
+  setAddressee,
+}) => {
   const [currentContactIndex, setCurrentContactIndex] = useState(0);
   let text = "";
-
+  const icons = [
+    { name: "grandpa", component: <MdElderly size={35} /> },
+    { name: "grandma", component: <MdElderlyWoman size={35} /> },
+    { name: "man", component: <MdMan size={35} /> },
+    { name: "woman", component: <MdWoman size={35} /> },
+    { name: "m-kid", component: <TbManFilled size={35} /> },
+    { name: "f-kid", component: <TbWomanFilled size={35} /> },
+  ];
   const fetchAudio = async () => {
     const { data } = await axios.post(
       getBackendURL() + "/synthesize",
       { text },
-      { responseType: "blob" }
+      { responseType: "blob" },
     );
     return data;
   };
@@ -37,14 +52,14 @@ const Addressee = ({setAudio, people, setDadLetter, setMomLetter, setAddressee }
       setAddressee(person);
       text = "Carta para " + person.name;
 
-      if(person.name === 'dad'){
+      if (person.name === "dad") {
         text = "Carta para papá";
       }
 
-      if(person.name === 'mom'){
+      if (person.name === "mom") {
         text = "Carta para mamá";
       }
-      
+
       await refetch();
     }
   };
@@ -93,14 +108,15 @@ const Addressee = ({setAudio, people, setDadLetter, setMomLetter, setAddressee }
         <div className="flex gap-4 justify-center mt-4 flex-col md:flex-row">
           <button
             className={" btn btn-secondary btn-lg "}
-            style={{ 
+            style={{
               backgroundColor: currentContact.color,
-              borderColor: currentContact.color
-             }}
+              borderColor: currentContact.color,
+            }}
             onClick={handleClick}
           >
             <span className="flex">
-              {currentContact.icon}
+              {icons[currentContact.icon]}
+              {/* {currentContact.icon} */}
               {currentContact.name}
             </span>
           </button>

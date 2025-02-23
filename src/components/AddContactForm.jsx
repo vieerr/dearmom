@@ -4,21 +4,52 @@ import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import { BlockPicker } from "react-color";
 import ColorPicker from "./ColorPicker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import getBackendURL from "../utils/getBackendURL";
 
-const AddContactForm = ({ validateContact, people, setPeople }) => {
-  const { user } = useContext(AuthContext);
+// people, setPeople used to be a prop
+const AddContactForm = ({ validateContact, setPeople }) => {
+  const { user, authToken } = useContext(AuthContext);
   const [contact, setContact] = useState({
     name: "",
     phone: "",
     color: "#fff",
   });
 
-  const { mutate, isLoading, isError, error } = useMutation({
-    mutationKey: "login",
+  const icons = [
+    { name: "grandpa", component: <MdElderly size={35} /> },
+    { name: "grandma", component: <MdElderlyWoman size={35} /> },
+    { name: "man", component: <MdMan size={35} /> },
+    { name: "woman", component: <MdWoman size={35} /> },
+    { name: "m-kid", component: <TbManFilled size={35} /> },
+    { name: "f-kid", component: <TbWomanFilled size={35} /> },
+  ];
+
+  useQuery({
+    queryKey: ["me"],
+    queryFn: async () => {
+      const response = await fetch(`${getBackendURL()}/me`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      if (!response.ok) throw new Error("Error al obtener los contactos");
+      console.log({ response });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      console.log({ data });
+      setPeople(data.contacts);
+    },
+    onError: (error) => {
+      console.error("Error obteniendo los contactos", error);
+    },
+  });
+
+  const { mutate } = useMutation({
+    mutationKey: "contacts",
     mutationFn: async (data) => {
       const response = await fetch(`${getBackendURL()}/add-contact`, {
         method: "PATCH",
@@ -28,7 +59,8 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
       if (!response.ok) throw new Error("Error al registrar el contacto");
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setPeople(data.contacts);
       console.log("Contacto registrado con éxito");
     },
     onError: (error) => {
@@ -59,72 +91,18 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
           <span className="label-text font-bold ">Select Icon</span>
         </label>
         <div className="grid grid-cols-3 gap-4 ">
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <MdElderly size={25} /> })
-            }
-            className={`btn btn-outline ${
-              contact.icon?.type === MdElderly ? "btn-primary" : ""
-            }`}
-          >
-            <MdElderly size={35} />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <MdElderlyWoman size={25} /> })
-            }
-            className={`btn btn-outline   ${
-              contact.icon?.type === MdElderlyWoman ? "btn-primary" : ""
-            }`}
-          >
-            <MdElderlyWoman size={35} />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <MdMan size={25} /> })
-            }
-            className={`btn btn-outline   ${
-              contact.icon?.type === MdMan ? "btn-primary" : ""
-            }`}
-          >
-            <MdMan size={35} />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <MdWoman size={25} /> })
-            }
-            className={`btn btn-outline   ${
-              contact.icon?.type === MdWoman ? "btn-primary" : ""
-            }`}
-          >
-            <MdWoman size={35} />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <TbManFilled size={25} /> })
-            }
-            className={`btn btn-outline   ${
-              contact.icon?.type === TbManFilled ? "btn-primary" : ""
-            }`}
-          >
-            <TbManFilled size={35} />
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              setContact({ ...contact, icon: <TbWomanFilled size={25} /> })
-            }
-            className={`btn btn-outline   ${
-              contact.icon?.type === TbWomanFilled ? "btn-primary" : ""
-            }`}
-          >
-            <TbWomanFilled size={35} />
-          </button>
+          {icons.map((icon, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setContact({ ...contact, icon: icon.name })}
+              className={`btn btn-outline ${
+                contact.icon === icon.name ? "btn-primary" : ""
+              }`}
+            >
+              {icon.component}
+            </button>
+          ))}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -193,7 +171,6 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
         onClick={(e) => {
           e.preventDefault();
           if (validateContact(contact)) {
-            console.log(user);
             mutate({
               _id: user.userId,
               contact: {
@@ -203,7 +180,7 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
                 icon: contact.icon,
               },
             });
-            setPeople([...people, contact]);
+            // setPeople([...people, contact]);
             setContact({ name: "", phone: "", color: "#fff" });
           }
         }}
