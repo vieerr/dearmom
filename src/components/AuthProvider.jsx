@@ -31,8 +31,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("authToken");
   };
 
+  const refetch = async () => {
+    if (authToken) {
+      const response = await axios.get(`${getBackendURL()}/me`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      setUser(jwtDecode(response.data));
+      setAuthToken(response.data);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ authToken, user, login, logout }}>
+    <AuthContext.Provider value={{ refetch, authToken, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

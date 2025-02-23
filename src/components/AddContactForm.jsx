@@ -4,12 +4,36 @@ import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import { BlockPicker } from "react-color";
 import ColorPicker from "./ColorPicker";
+import { useMutation } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
+import getBackendURL from "../utils/getBackendURL";
 
 const AddContactForm = ({ validateContact, people, setPeople }) => {
+  const { user } = useContext(AuthContext);
   const [contact, setContact] = useState({
     name: "",
     phone: "",
     color: "#fff",
+  });
+
+  const { mutate, isLoading, isError, error } = useMutation({
+    mutationKey: "login",
+    mutationFn: async (data) => {
+      const response = await fetch(`${getBackendURL()}/add-contact`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Error al registrar el contacto");
+      return response.json();
+    },
+    onSuccess: () => {
+      console.log("Contacto registrado con éxito");
+    },
+    onError: (error) => {
+      console.error("Error registrando al contacto", error);
+    },
   });
 
   const handleChange = (e) => {
@@ -23,38 +47,9 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
   const handleColorChange = (color) => {
     setContact((prevContact) => ({
       ...prevContact,
-      color: color.hex,
+      color: color?.hex ? color.hex : color,
     }));
   };
-
-  const handleColorPicker = (selectedColor) => {
-    setContact((prevContact) => ({
-      ...prevContact,
-      color: selectedColor
-    }));
-  };
-
-  // const validateContact = () => {
-  //   const nameRegex = /^[A-Za-z\s]+$/;
-  //   const phoneRegex = /^\d{9}$/;
-
-  //   if (!nameRegex.test(contact.name)) {
-  //     alert("Name should contain only letters.");
-  //     return false;
-  //   }
-
-  //   if (!phoneRegex.test(contact.phone)) {
-  //     alert("Phone number should contain exactly 9 digits.");
-  //     return false;
-  //   }
-
-  //   if (!contact.icon) {
-  //     alert("Please select an icon.");
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
 
   return (
     <form className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
@@ -172,7 +167,7 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
         <div className="form-control mb-4 ">
           <label className="label">
             <span className="label-text font-bold ">Select Color</span>
-            <ColorPicker onChange={handleColorPicker}/>
+            <ColorPicker onChange={handleColorChange} />
           </label>
           <BlockPicker
             width="100%"
@@ -198,6 +193,16 @@ const AddContactForm = ({ validateContact, people, setPeople }) => {
         onClick={(e) => {
           e.preventDefault();
           if (validateContact(contact)) {
+            console.log(user);
+            mutate({
+              _id: user.userId,
+              contact: {
+                name: contact.name,
+                phone: contact.phone,
+                color: contact.color,
+                icon: contact.icon,
+              },
+            });
             setPeople([...people, contact]);
             setContact({ name: "", phone: "", color: "#fff" });
           }
