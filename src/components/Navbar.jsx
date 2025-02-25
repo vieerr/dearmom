@@ -9,7 +9,7 @@ import { AuthContext } from "./AuthProvider";
 import { useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 const Navbar = ({ setPeople, people, setLetters, letters }) => {
-  const { authToken, logout } = useContext(AuthContext);
+  const { authToken, logout, user } = useContext(AuthContext);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
@@ -63,8 +63,16 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           setIsRegisterModalOpen(true);
         }}
       />
-      <div className="navbar bg-base-100 border-b border-base-500">
-        <div className="flex-1">
+      <div className="w-full flex md:hidden">
+        <img
+          src="/logo.png"
+          alt="logo"
+          className="w-1/2 mx-auto py-2 inline-block"
+          width={"100%"}
+        />
+      </div>
+      <div className="navbar bg-base-100 border-b border-base-500 ">
+        <div className=" hidden md:block">
           <img
             src="/logo.png"
             alt="logo"
@@ -89,7 +97,6 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         <dialog id="letter-record" className="modal">
           <div className="modal-box px-0">
             <form method="dialog">
-              {}
               <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
                 ✕
               </button>
@@ -122,9 +129,9 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </form>
         </dialog>
 
-        <div className="flex-none">
-          <div className="hidden md:flex">
-            <label className="p-2">Cuenta innactiva</label>
+        <div className="flex w-full md:justify-end">
+          <div className="flex">
+            <label className="p-2 hidden md:inline">Cuenta innactiva</label>
             <div className="form-control">
               <label className="label cursor-pointer">
                 <input
@@ -136,12 +143,12 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
                 />
               </label>
             </div>
-            <label className="p-2">Cuenta activa</label>
+            <label className="p-2 hidden md:inline">Cuenta activa</label>
           </div>
 
           <button
             onClick={() => document.getElementById("letter-record").showModal()}
-            className={`btn btn-outline md:btn-lg m-2 ${
+            className={`btn btn-sm btn-outline md:btn-lg m-2 ${
               (!isAuth || !buttonsEnable) && "btn-disabled"
             }`}
           >
@@ -149,7 +156,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </button>
           <button
             onClick={() => document.getElementById("for-parents").showModal()}
-            className={`btn btn-outline md:btn-lg m-2 ${
+            className={`btn btn-sm btn-outline md:btn-lg m-2 ${
               (!isAuth || !buttonsEnable) && "btn-disabled"
             }`}
           >
@@ -158,14 +165,13 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           {isAuth ? (
             <div className="flex flex-col items-center justify-center">
               <div tabIndex={0} role="button" className="avatar">
-                <div className="w-full flex justify-center rounded-full mb-3">
+                {/* <div className="w-full flex justify-center rounded-full mb-3">
                   <FaUser size={20} />
-                  {/* <img alt="User profile picture" src={user.picture} /> */}
-                </div>
+                </div> */}
               </div>
               <button
                 onClick={() => logout()}
-                className={`btn btn-lg btn-error btn-outline mx-4 ${
+                className={`btn btn-sm md:btn-lg uppercase btn-error btn-outline mx-4 ${
                   !buttonsEnable && "btn-disabled"
                 }`}
               >

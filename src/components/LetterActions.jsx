@@ -29,7 +29,10 @@ const LetterActions = ({
         } bg-blue-500 text-white mt-4 btn-lg  m-auto`}
         onClick={() => {
           if (addressee?.email.length !== 0) {
-            sendLetterToEmail(addressee?.email);
+            sendLetterToEmail({
+              email: addressee?.email,
+              name: addressee?.name,
+            });
           } else {
             setAudio(nophone);
           }

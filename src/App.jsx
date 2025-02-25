@@ -34,7 +34,7 @@ function App() {
   const [letters, setLetters] = useState([]);
 
   return (
-    <>
+    <div className="overflow-hidden">
       <Navbar
         setPeople={setPeople}
         people={people}
@@ -42,7 +42,7 @@ function App() {
         letters={letters}
       />
       <LetterContainer people={people} setLetters={setLetters} />
-    </>
+    </div>
   );
 }
 

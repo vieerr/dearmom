@@ -39,7 +39,11 @@ const EditContact = ({ people, setPeople }) => {
       alert("Name should contain only letters.");
       return false;
     }
-    if (people.some((prs) => prs.name === person.name)) {
+    if (
+      person.name !== "mom" &&
+      person.name !== "dad" &&
+      people.some((prs) => prs.name === person.name)
+    ) {
       alert("Contact with that name already exists");
       return false;
     }

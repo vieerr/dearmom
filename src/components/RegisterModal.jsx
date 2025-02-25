@@ -1,6 +1,6 @@
-// src/components/RegisterModal.jsx
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { MdPin } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../utils/api";
 import { useContext } from "react";
@@ -10,6 +10,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pin, setPin] = useState("");
   const [errors, setErrors] = useState({});
 
   const { login } = useContext(AuthContext);
@@ -30,6 +31,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const validateForm = () => {
     const newErrors = {};
     if (!name) newErrors.name = "Name is required";
+    if (pin.length !== 4) {
+      newErrors.pin = "Pin must be 4 characters";
+    }
     if (!email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -47,7 +51,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      await mutate({ name, email, password });
+      await mutate({ name, email, password, pin });
     }
   };
 
@@ -118,6 +122,26 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
             </div>
             {errors.password && (
               <span className="text-xs text-error">{errors.password}</span>
+            )}
+          </div>
+          <div className="form-control mb-4">
+            <label className="label">
+              <span className="label-text">
+                Access Pin (For Parents actions)
+              </span>
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="1212"
+                className={`input input-bordered w-full ${errors.pin ? "input-error" : ""}`}
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+              />
+              <MdPin className="absolute right-3 top-3 text-gray-400" />
+            </div>
+            {errors.name && (
+              <span className="text-xs text-error">{errors.name}</span>
             )}
           </div>
           <div className="modal-action">

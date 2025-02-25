@@ -68,7 +68,7 @@ const LetterContainer = ({ people, setLetters }) => {
     }
   };
 
-  const sendLetterToEmail = async (email) => {
+  const sendLetterToEmail = async ({ email, name }) => {
     try {
       setAudio(send); // Assuming this plays a sound effect
 
@@ -89,6 +89,7 @@ const LetterContainer = ({ people, setLetters }) => {
       // Send the email via the backend
       const emailResponse = await axios.post(getBackendURL() + "/send-email", {
         recipientEmail: email,
+        name: name,
         imageUrl,
       });
 

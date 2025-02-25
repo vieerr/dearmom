@@ -116,8 +116,7 @@ const Addressee = ({
           >
             <span className="flex">
               {icons[currentContact.icon]}
-              {/* {currentContact.icon} */}
-              {currentContact.name}
+              {currentContact.name.toUpperCase()}
             </span>
           </button>
         </div>

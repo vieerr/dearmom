@@ -137,13 +137,13 @@ const EditContactForm = ({
             </label>
             <div className="flex items-center">
               <label className="input input-bordered flex items-center gap-2">
-                <span className="font-bold">+593</span>
+                <span className="font-bold"></span>
                 <input
                   type="email"
                   name="email"
                   value={contact.email}
                   onChange={handleChange}
-                  placeholder="987654321"
+                  placeholder="parent@gmail.com"
                   className=" w-full"
                   required
                 />
