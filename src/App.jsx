@@ -26,7 +26,9 @@ function App() {
   ]);
 
   useEffect(() => {
-    setPeople(user.contacts);
+    if (user) {
+      setPeople(user.contacts);
+    }
   }, [user]);
 
   const [letters, setLetters] = useState([]);

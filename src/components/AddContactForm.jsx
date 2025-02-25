@@ -27,26 +27,26 @@ const AddContactForm = ({ validateContact, setPeople }) => {
     { name: "f-kid", component: <TbWomanFilled size={35} /> },
   ];
 
-  useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const response = await fetch(`${getBackendURL()}/me`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      if (!response.ok) throw new Error("Error al obtener los contactos");
-      console.log({ response });
-      return response.json();
-    },
-    onSuccess: (data) => {
-      console.log({ data });
-      setPeople(data.contacts);
-    },
-    onError: (error) => {
-      console.error("Error obteniendo los contactos", error);
-    },
-  });
+  // useQuery({
+  //   queryKey: ["me"],
+  //   queryFn: async () => {
+  //     const response = await fetch(`${getBackendURL()}/me`, {
+  //       headers: {
+  //         Authorization: `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     if (!response.ok) throw new Error("Error al obtener los contactos");
+  //     console.log({ response });
+  //     return response.json();
+  //   },
+  //   onSuccess: (data) => {
+  //     console.log({ data });
+  //     setPeople(data.contacts);
+  //   },
+  //   onError: (error) => {
+  //     console.error("Error obteniendo los contactos", error);
+  //   },
+  // });
 
   const { mutate } = useMutation({
     mutationKey: "contacts",
