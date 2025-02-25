@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import SpeechRecognition from "react-speech-recognition";
 import finishTime from "../audios/finishtime.mp3";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 
 // TODO refactor
 const MicrophoneControl = ({
@@ -24,24 +24,24 @@ const MicrophoneControl = ({
   const [playLimitTimeSound] = useSound(finishTime);
 
   useEffect(() => {
-    if(!listening || timeLeft === 0 ) {
-      setTimeout(()=>{
+    if (!listening || timeLeft === 0) {
+      setTimeout(() => {
         SpeechRecognition.stopListening();
         setListening(false);
         setTimeLeft(maxDuration);
-        if(timeLeft === 0) playLimitTimeSound();        
-      },500);
+        if (timeLeft === 0) playLimitTimeSound();
+      }, 500);
       return;
-    };
+    }
 
     const timer = setTimeout(() => {
       setTimeLeft(timeLeft - 1);
-    },1000);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  },[timeLeft,listening]);
+  }, [timeLeft, listening]);
 
-  const toggleListening = () => { 
+  const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
       setTimeLeft(maxDuration);

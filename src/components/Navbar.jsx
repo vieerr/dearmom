@@ -165,7 +165,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
               </div>
               <button
                 onClick={() => logout()}
-                className={`btn btn-sm btn-error btn-outline mx-4 ${
+                className={`btn btn-lg btn-error btn-outline mx-4 ${
                   !buttonsEnable && "btn-disabled"
                 }`}
               >
@@ -174,8 +174,8 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
             </div>
           ) : (
             <button
-              className="btn btn-primary"
-              onClick={() => setIsRegisterModalOpen(true)}
+              className="btn btn-primary btn-lg uppercase font-bold "
+              onClick={() => setIsLoginModalOpen(true)}
             >
               Login
             </button>

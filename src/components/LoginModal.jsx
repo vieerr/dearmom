@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "../utils/api";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 
@@ -52,7 +51,15 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
   return (
     <div className="z-50 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-bold mb-4">Login</h2>
+          <button
+            onClick={() => onClose()}
+            className="btn btn-sm btn-circle btn-ghost "
+          >
+            ✕
+          </button>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="form-control mb-4">
             <label className="label">

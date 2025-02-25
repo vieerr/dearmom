@@ -9,6 +9,12 @@ import {
 } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import ColorPicker from "./ColorPicker";
+import getBackendURL from "../utils/getBackendURL";
+import { useMutation } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const EditContactForm = ({
   contact,
@@ -18,6 +24,8 @@ const EditContactForm = ({
   setPeople,
   setEditPanelVisibility,
 }) => {
+  const { user } = useContext(AuthContext);
+
   const icons = [
     { icon: <MdElderly size={35} />, type: MdElderly },
     { icon: <MdElderlyWoman size={35} />, type: MdElderlyWoman },
@@ -26,6 +34,26 @@ const EditContactForm = ({
     { icon: <TbManFilled size={35} />, type: TbManFilled },
     { icon: <TbWomanFilled size={35} />, type: TbWomanFilled },
   ];
+
+  const { mutate } = useMutation({
+    mutationKey: "edit-contacts",
+    mutationFn: async (data) => {
+      const response = await fetch(`${getBackendURL()}/update-contact`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Error al actualizar el contacto");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setPeople(data.contacts);
+      console.log("Contacto actualizado con éxito");
+    },
+    onError: (error) => {
+      console.error("Error actualizando al contacto", error);
+    },
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +73,7 @@ const EditContactForm = ({
   const handleColorPicker = (selectedColor) => {
     setContact((prevContact) => ({
       ...prevContact,
-      color: selectedColor
+      color: selectedColor,
     }));
   };
 
@@ -85,7 +113,6 @@ const EditContactForm = ({
           </div>
         </div>
       )}
-
       <div className="grid grid-cols-2 gap-4">
         <div>
           {!(contact.name === "dad" || contact.name === "mom") && (
@@ -106,15 +133,15 @@ const EditContactForm = ({
           )}
           <div className="form-control mb-4">
             <label className="label">
-              <span className="label-text">Phone Number</span>
+              <span className="label-text">Email</span>
             </label>
             <div className="flex items-center">
               <label className="input input-bordered flex items-center gap-2">
                 <span className="font-bold">+593</span>
                 <input
-                  type="tel"
-                  name="phone"
-                  value={contact.phone}
+                  type="email"
+                  name="email"
+                  value={contact.email}
                   onChange={handleChange}
                   placeholder="987654321"
                   className=" w-full"
@@ -128,7 +155,10 @@ const EditContactForm = ({
         <div className="form-control mb-4">
           <label className="label">
             <span className="label-text font-bold ">Select Color</span>
-            <ColorPicker onChange={handleColorPicker} defaultColor={contact.color}/>
+            <ColorPicker
+              onChange={handleColorPicker}
+              defaultColor={contact.color}
+            />
           </label>
           <BlockPicker
             width="100%"
@@ -155,23 +185,12 @@ const EditContactForm = ({
         onClick={(e) => {
           e.preventDefault();
           if (validateContact(contact)) {
-            const existingContactIndex = people.findIndex(
-              (person) => person.name === contact.name
-            );
-            if (existingContactIndex !== -1) {
-              const updatedPeople = [...people];
-              updatedPeople[existingContactIndex] = contact;
-              setPeople(updatedPeople);
-            } else {
-              if (
-                window.confirm(
-                  "Contact with this name already exists. Do you want to update it?"
-                )
-              ) {
-                setPeople([...people, contact]);
-              }
-            }
-            setContact({ name: "", phone: "" });
+            mutate({
+              userId: user.userId,
+              contactId: contact.id,
+              updatedContact: contact,
+            });
+            setContact({ name: "", email: "" });
           }
         }}
         type="submit"

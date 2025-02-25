@@ -56,7 +56,15 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   return (
     <div className="z-50 fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-bold mb-4">Register</h2>
+          <button
+            onClick={() => onClose()}
+            className="btn btn-sm btn-circle btn-ghost "
+          >
+            ✕
+          </button>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="form-control mb-4">
             <label className="label">

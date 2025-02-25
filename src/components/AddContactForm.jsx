@@ -4,17 +4,17 @@ import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import { BlockPicker } from "react-color";
 import ColorPicker from "./ColorPicker";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import getBackendURL from "../utils/getBackendURL";
 
 // people, setPeople used to be a prop
 const AddContactForm = ({ validateContact, setPeople }) => {
-  const { user, authToken } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [contact, setContact] = useState({
     name: "",
-    phone: "",
+    email: "",
     color: "#fff",
   });
 
@@ -26,27 +26,6 @@ const AddContactForm = ({ validateContact, setPeople }) => {
     { name: "m-kid", component: <TbManFilled size={35} /> },
     { name: "f-kid", component: <TbWomanFilled size={35} /> },
   ];
-
-  // useQuery({
-  //   queryKey: ["me"],
-  //   queryFn: async () => {
-  //     const response = await fetch(`${getBackendURL()}/me`, {
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}`,
-  //       },
-  //     });
-  //     if (!response.ok) throw new Error("Error al obtener los contactos");
-  //     console.log({ response });
-  //     return response.json();
-  //   },
-  //   onSuccess: (data) => {
-  //     console.log({ data });
-  //     setPeople(data.contacts);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Error obteniendo los contactos", error);
-  //   },
-  // });
 
   const { mutate } = useMutation({
     mutationKey: "contacts",
@@ -123,17 +102,16 @@ const AddContactForm = ({ validateContact, setPeople }) => {
           </div>
           <div className="form-control mb-4">
             <label className="label">
-              <span className="label-text font-bold ">Phone Number</span>
+              <span className="label-text font-bold ">Email</span>
             </label>
             <div className="flex items-center">
               <label className="input input-bordered flex items-center gap-2">
-                <span className="font-bold">+593</span>
                 <input
-                  type="tel"
-                  name="phone"
-                  value={contact.phone}
+                  type="email"
+                  name="email"
+                  value={contact.email}
                   onChange={handleChange}
-                  placeholder="987654321"
+                  placeholder="parent@gmail.com"
                   className=" w-full"
                   required
                 />
@@ -175,13 +153,13 @@ const AddContactForm = ({ validateContact, setPeople }) => {
               _id: user.userId,
               contact: {
                 name: contact.name,
-                phone: contact.phone,
+                email: contact.email,
                 color: contact.color,
                 icon: contact.icon,
               },
             });
             // setPeople([...people, contact]);
-            setContact({ name: "", phone: "", color: "#fff" });
+            setContact({ name: "", email: "", color: "#fff" });
           }
         }}
         type="submit"

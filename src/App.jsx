@@ -13,13 +13,13 @@ function App() {
   const [people, setPeople] = useState([
     {
       name: "mom",
-      phone: "",
+      email: "",
       icon: "woman",
       color: "#f472b6",
     },
     {
       name: "dad",
-      phone: "",
+      email: "",
       icon: "man",
       color: "#60a5fa",
     },

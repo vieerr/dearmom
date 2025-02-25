@@ -1,13 +1,13 @@
 import { FaDownload, FaShare, FaTrash } from "react-icons/fa";
 
 import del from "../audios/del.mp3";
-import noPhone from "../audios/nophone.mp3"
+import nophone from "../audios/nophone.mp3";
 
 const LetterActions = ({
   addressee,
   letter,
   saveAsImage,
-  sendLetterToWhatsApp,
+  sendLetterToEmail,
   resetLetter,
   setAudio,
 }) => {
@@ -17,7 +17,9 @@ const LetterActions = ({
         className={`btn ${
           letter.length > 1 ? "" : "btn-disabled"
         } btn-success text-white mt-4 btn-lg  m-auto`}
-        onClick={() => {saveAsImage(addressee?.phone)}}
+        onClick={() => {
+          saveAsImage(addressee?.email);
+        }}
       >
         <FaDownload size={35} className="inline-block" /> SAVE
       </button>
@@ -26,10 +28,10 @@ const LetterActions = ({
           letter.length > 1 ? "" : "btn-disabled"
         } bg-blue-500 text-white mt-4 btn-lg  m-auto`}
         onClick={() => {
-          if (addressee?.phone.length !== 0) {
-            sendLetterToWhatsApp(addressee?.phone);
+          if (addressee?.email.length !== 0) {
+            sendLetterToEmail(addressee?.email);
           } else {
-            setAudio(noPhone)
+            setAudio(nophone);
           }
         }}
       >

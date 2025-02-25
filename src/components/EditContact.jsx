@@ -14,9 +14,8 @@ import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 const EditContact = ({ people, setPeople }) => {
   const [contact, setContact] = useState({
     name: "",
-    phone: "",
+    email: "",
   });
-
   const icons = {
     grandpa: <MdElderly size={35} />,
     grandma: <MdElderlyWoman size={35} />,
@@ -35,15 +34,13 @@ const EditContact = ({ people, setPeople }) => {
 
   const validateContact = (person) => {
     const nameRegex = /^[A-Za-z\s]+$/;
-    const phoneRegex = /^\d{9}$/;
 
     if (!nameRegex.test(person.name)) {
       alert("Name should contain only letters.");
       return false;
     }
-
-    if (!phoneRegex.test(person.phone)) {
-      alert("Phone number should contain exactly 9 digits.");
+    if (people.some((prs) => prs.name === person.name)) {
+      alert("Contact with that name already exists");
       return false;
     }
 
@@ -62,7 +59,7 @@ const EditContact = ({ people, setPeople }) => {
           {people.length === 0 ? (
             <p className="text-center font-light">No contacts registered</p>
           ) : (
-            people.map((person, index) => (
+            people.toReversed().map((person, index) => (
               <li
                 key={index}
                 style={{ backgroundColor: person.color }}

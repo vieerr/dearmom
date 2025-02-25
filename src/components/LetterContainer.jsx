@@ -37,25 +37,25 @@ const LetterContainer = ({ people, setLetters }) => {
 
   const letterRef = useRef();
 
-  const addToRecord = (phone, dataUrl) => {    
-    const personSended = people.find((person) => person.phone === phone);
+  const addToRecord = (email, dataUrl) => {
+    const personSent = people.find((person) => person.email === email);
     const letterSended = {
-      sendedDate: moment().format('DD/MM/YYYY'),
-      name:personSended.name,
-      phone:"+593 " + personSended.phone,
-      content: dataUrl
-    }
+      sendedDate: moment().format("DD/MM/YYYY"),
+      name: personSent.name,
+      email: personSent.email,
+      content: dataUrl,
+    };
 
-    setLetters(prevLetters => {
-      if(prevLetters.some(letter => letter.content === dataUrl)){
+    setLetters((prevLetters) => {
+      if (prevLetters.some((letter) => letter.content === dataUrl)) {
         return prevLetters;
-      }else{
-        return [letterSended, ...prevLetters]
+      } else {
+        return [letterSended, ...prevLetters];
       }
     });
   };
 
-  const saveAsImage = async (phone) => {
+  const saveAsImage = async (email) => {
     setAudio(save);
     if (letterRef.current) {
       const dataUrl = await toPng(letterRef.current);
@@ -64,34 +64,43 @@ const LetterContainer = ({ people, setLetters }) => {
       link.href = dataUrl;
       link.click();
 
-      addToRecord(phone, dataUrl);
+      addToRecord(email, dataUrl);
     }
   };
 
-  const sendLetterToWhatsApp = async (phone) => {
+  const sendLetterToEmail = async (email) => {
     try {
-      setAudio(send);
+      setAudio(send); // Assuming this plays a sound effect
 
+      // Convert the letter to an image
       const dataUrl = await toPng(letterRef.current);
+
+      // Upload the image to your backend or Cloudinary
       const response = await axios.post(
         getBackendURL() + "/upload",
         { image: dataUrl },
         {
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       const imageUrl = response.data.imageUrl;
 
-      const phoneNumber = phone;
-      const message = encodeURIComponent(
-        `Here's a letter from your child: ${imageUrl}`
-      );
-      window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+      // Send the email via the backend
+      const emailResponse = await axios.post(getBackendURL() + "/send-email", {
+        recipientEmail: email,
+        imageUrl,
+      });
 
-      addToRecord(phone, dataUrl);
+      console.log("Email sent:", emailResponse.data);
+
+      // Add the email and image to the record (assuming this is a local function)
+      addToRecord(email, dataUrl);
     } catch (error) {
-      console.error("Error uploading image:", error.response?.data || error);
+      console.error(
+        "Error uploading image or sending email:",
+        error.response?.data || error,
+      );
     }
   };
 
@@ -106,7 +115,7 @@ const LetterContainer = ({ people, setLetters }) => {
     setAudio(mom);
   };
 
-  const { transcript, resetTranscript, browserSupportsSpeechRecognition, } =
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
 
   return (
@@ -136,7 +145,7 @@ const LetterContainer = ({ people, setLetters }) => {
             <Addressee
               setAudio={setAudio}
               people={people}
-              sendLetterToWhatsApp={sendLetterToWhatsApp}
+              sendLetterToEmail={sendLetterToEmail}
               letterRef={letterRef}
               setAddressee={setAddressee}
               setDadLetter={setDadLetter}
@@ -148,7 +157,7 @@ const LetterContainer = ({ people, setLetters }) => {
                 letter={letter}
                 letterRef={letterRef}
                 saveAsImage={saveAsImage}
-                sendLetterToWhatsApp={sendLetterToWhatsApp}
+                sendLetterToEmail={sendLetterToEmail}
                 setAudio={setAudio}
                 resetLetter={resetTranscript}
               />
@@ -160,7 +169,7 @@ const LetterContainer = ({ people, setLetters }) => {
           <Addressee
             setAudio={setAudio}
             people={people}
-            sendLetterToWhatsApp={sendLetterToWhatsApp}
+            sendLetterToEmail={sendLetterToEmail}
             letterRef={letterRef}
             setAddressee={setAddressee}
             setDadLetter={setDadLetter}
@@ -175,7 +184,7 @@ const LetterContainer = ({ people, setLetters }) => {
           letter={letter}
           letterRef={letterRef}
           saveAsImage={saveAsImage}
-          sendLetterToWhatsApp={sendLetterToWhatsApp}
+          sendLetterToEmail={sendLetterToEmail}
           setAudio={setAudio}
           resetLetter={resetTranscript}
         />
@@ -184,7 +193,7 @@ const LetterContainer = ({ people, setLetters }) => {
         setAudio={setAudio}
         setAddressee={setAddressee}
         letterRef={letterRef}
-        sendLetter={sendLetterToWhatsApp}
+        sendLetter={sendLetterToEmail}
         people={people}
       />
     </>
