@@ -39,14 +39,16 @@ const EditContact = ({ people, setPeople }) => {
       alert("Name should contain only letters.");
       return false;
     }
-    if (
-      person.name !== "mom" &&
-      person.name !== "dad" &&
-      people.some((prs) => prs.name === person.name)
-    ) {
-      alert("Contact with that name already exists");
-      return false;
-    }
+
+    // TODO: Validate name uniqueness;
+    // if (
+    //   person.name !== "mom" &&
+    //   person.name !== "dad" &&
+    //   people.some((prs) => prs.name === person.name)
+    // ) {
+    //   alert("Contact with that name already exists");
+    //   return false;
+    // }
 
     if (!person.icon) {
       alert("Please select an icon.");
