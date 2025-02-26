@@ -10,15 +10,48 @@ import { FaTrash } from "react-icons/fa";
 import AddContactForm from "./AddContactForm";
 import EditContactForm from "./EditContactForm";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import getBackendURL from "../utils/getBackendURL";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
 
 const EditContact = ({ people, setPeople }) => {
-
   const [editPanelVisibility, setEditPanelVisibility] = useState(false);
   const [contact, setContact] = useState({
     name: "",
     email: "",
   });
 
+  const { user } = useContext(AuthContext);
+
+  const deleteContactFn = async (id) => {
+    try {
+      const { data } = await axios.delete(getBackendURL() + "/delete-contact", {
+        data: {
+          userId: user.userId,
+          contactId: id,
+        },
+      });
+      return data;
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      alert("Hubo un error en el servidor al eliminar el contacto.");
+    }
+  };
+
+  const { mutate: deleteContact } = useMutation({
+    mutationKey: ["deleteContact", user.userId],
+    mutationFn: deleteContactFn,
+    onSuccess: async (data) => {
+      console.log(data);
+      setPeople(data);
+    },
+    onError: (error) => {
+      console.error("Error deleting contact:", error);
+      alert("Hubo un error en el servidor al eliminar el contacto.");
+    },
+  });
   const icons = {
     grandpa: <MdElderly size={35} />,
     grandma: <MdElderlyWoman size={35} />,
@@ -27,7 +60,6 @@ const EditContact = ({ people, setPeople }) => {
     "m-kid": <TbManFilled size={35} />,
     "f-kid": <TbWomanFilled size={35} />,
   };
-
 
   const editContact = (person) => {
     setEditPanelVisibility(true);
@@ -97,9 +129,7 @@ const EditContact = ({ people, setPeople }) => {
                             "Are you sure you want to delete this contact?"
                           )
                         ) {
-                          setPeople(
-                            people.filter((person) => person !== people[index])
-                          );
+                          deleteContact(person.id);
                         }
                       }}
                       className="btn btn-square border-white mr-2"
