@@ -190,6 +190,7 @@ const LetterContainer = ({ people, setLetters }) => {
           resetLetter={resetTranscript}
         />
       </div>
+      
       <OthersModal
         setAudio={setAudio}
         setAddressee={setAddressee}
