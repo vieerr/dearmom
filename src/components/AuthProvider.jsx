@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      setUser(jwtDecode(response.data));
-      setAuthToken(response.data);
+      setUser(jwtDecode(response.data.token));
+      setAuthToken(response.data.token);
     }
   };
 

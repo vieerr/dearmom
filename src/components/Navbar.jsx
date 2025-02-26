@@ -7,9 +7,8 @@ import RegisterModal from "./RegisterModal";
 import { useState, useRef } from "react";
 import { AuthContext } from "./AuthProvider";
 import { useEffect } from "react";
-import { FaUser } from "react-icons/fa";
 const Navbar = ({ setPeople, people, setLetters, letters }) => {
-  const { authToken, logout, user } = useContext(AuthContext);
+  const { authToken, logout, refetch } = useContext(AuthContext);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
@@ -155,7 +154,10 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
             RECORD
           </button>
           <button
-            onClick={() => document.getElementById("for-parents").showModal()}
+            onClick={() => {
+              refetch();
+              document.getElementById("for-parents").showModal();
+            }}
             className={`btn btn-sm btn-outline md:btn-lg m-2 ${
               (!isAuth || !buttonsEnable) && "btn-disabled"
             }`}

@@ -12,10 +12,13 @@ import EditContactForm from "./EditContactForm";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 
 const EditContact = ({ people, setPeople }) => {
+
+  const [editPanelVisibility, setEditPanelVisibility] = useState(false);
   const [contact, setContact] = useState({
     name: "",
     email: "",
   });
+
   const icons = {
     grandpa: <MdElderly size={35} />,
     grandma: <MdElderlyWoman size={35} />,
@@ -25,7 +28,6 @@ const EditContact = ({ people, setPeople }) => {
     "f-kid": <TbWomanFilled size={35} />,
   };
 
-  const [editPanelVisibility, setEditPanelVisibility] = useState(false);
 
   const editContact = (person) => {
     setEditPanelVisibility(true);
@@ -92,11 +94,11 @@ const EditContact = ({ people, setPeople }) => {
                       onClick={() => {
                         if (
                           confirm(
-                            "Are you sure you want to delete this contact?",
+                            "Are you sure you want to delete this contact?"
                           )
                         ) {
                           setPeople(
-                            people.filter((person) => person !== people[index]),
+                            people.filter((person) => person !== people[index])
                           );
                         }
                       }}
