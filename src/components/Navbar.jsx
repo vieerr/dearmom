@@ -128,7 +128,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </form>
         </dialog>
 
-        <div className="flex w-full md:justify-end ">
+        <div className="flex justify-evenly w-full md:justify-end ">
           <div className={`flex ${!isAuth && "hidden"}`}>
             <label className="p-2 hidden md:inline">
               For Parents: 
@@ -149,7 +149,6 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
                 />
               </label>
             </div>
-            {/* <label className="p-2 hidden md:inline">Cuenta activa</label> */}
           </div>
 
           <button

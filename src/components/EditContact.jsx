@@ -44,7 +44,7 @@ const EditContact = ({ people, setPeople }) => {
     mutationKey: ["deleteContact", user?.userId],
     mutationFn: deleteContactFn,
     onSuccess: async (data) => {
-      console.log(data);
+      alert("Contacto eliminado con éxito");
       setPeople(data);
     },
     onError: (error) => {
@@ -66,7 +66,7 @@ const EditContact = ({ people, setPeople }) => {
     setContact(person);
   };
 
-  const validateContact = (person) => {
+  const validateContact = (person, type) => {
     const nameRegex = /^[A-Za-z\s]+$/;
 
     if (!nameRegex.test(person.name)) {
@@ -75,14 +75,19 @@ const EditContact = ({ people, setPeople }) => {
     }
 
     // TODO: Validate name uniqueness;
-    // if (
-    //   person.name !== "mom" &&
-    //   person.name !== "dad" &&
-    //   people.some((prs) => prs.name === person.name)
-    // ) {
-    //   alert("Contact with that name already exists");
-    //   return false;
-    // }
+    if (type === "edit") {
+      if (people.some((prs) => prs.name === person.name)) {
+        alert("Contact with that name already exists");
+        return false;
+      }
+    }
+
+    if(type === "add") {
+      if (person.name === "dad" || person.name === "mom") {
+        alert("Contact can't be named dad or mom");
+        return false;
+      }
+    }
 
     if (!person.icon) {
       alert("Please select an icon.");

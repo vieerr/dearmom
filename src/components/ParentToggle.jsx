@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 const LetterRecord = ({ setButtonsEnable, closeToggleModal }) => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   const handleSend = (event) => {
     event.preventDefault();
     const enterPassword = document.getElementById("password-check");

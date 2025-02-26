@@ -40,7 +40,7 @@ const AddContactForm = ({ validateContact, setPeople }) => {
     },
     onSuccess: (data) => {
       setPeople(data.contacts);
-      console.log("Contacto registrado con éxito");
+      alert("Contacto registrado con éxito");
     },
     onError: (error) => {
       console.error("Error registrando al contacto", error);
@@ -148,7 +148,7 @@ const AddContactForm = ({ validateContact, setPeople }) => {
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (validateContact(contact)) {
+          if (validateContact(contact, "add")) {
             mutate({
               _id: user.userId,
               contact: {

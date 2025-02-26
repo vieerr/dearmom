@@ -20,7 +20,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
     mutationFn: registerUser,
     onSuccess: () => {
       login({ email, password });
-      console.log("Registration successful");
+      // console.log("Registration successful");
       onClose();
     },
     onError: (error) => {
