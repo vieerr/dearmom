@@ -41,7 +41,7 @@ const EditContact = ({ people, setPeople }) => {
   };
 
   const { mutate: deleteContact } = useMutation({
-    mutationKey: ["deleteContact", user.userId],
+    mutationKey: ["deleteContact", user?.userId],
     mutationFn: deleteContactFn,
     onSuccess: async (data) => {
       console.log(data);
