@@ -1,4 +1,3 @@
-//icons for the contacts
 import { BlockPicker } from "react-color";
 import {
   MdArrowBack,

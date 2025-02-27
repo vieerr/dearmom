@@ -12,7 +12,6 @@ const LetterActions = ({
   setAudio,
 }) => {
   return (
-    // <div className="grid grid-cols-3 gap-3 mx-3 md:gap-5 md:mx-0">
     <div className="grid grid-cols-3 gap-3 mx-3 md:mx-0 md:justify-evenly md:gap-6 md:flex">
       <button
         className={`btn ${

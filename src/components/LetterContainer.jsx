@@ -70,12 +70,10 @@ const LetterContainer = ({ people, setLetters }) => {
 
   const sendLetterToEmail = async ({ email, name }) => {
     try {
-      setAudio(send); // Assuming this plays a sound effect
+      setAudio(send); 
 
-      // Convert the letter to an image
       const dataUrl = await toPng(letterRef.current);
 
-      // Upload the image to your backend or Cloudinary
       const response = await axios.post(
         getBackendURL() + "/upload",
         { image: dataUrl },
@@ -86,7 +84,6 @@ const LetterContainer = ({ people, setLetters }) => {
 
       const imageUrl = response.data.imageUrl;
 
-      // Send the email via the backend
       const emailResponse = await axios.post(getBackendURL() + "/send-email", {
         recipientEmail: email,
         name: name,
@@ -95,7 +92,6 @@ const LetterContainer = ({ people, setLetters }) => {
 
       console.log("Email sent:", emailResponse.data);
 
-      // Add the email and image to the record (assuming this is a local function)
       addToRecord(email, dataUrl);
     } catch (error) {
       console.error(

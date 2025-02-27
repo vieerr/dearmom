@@ -1,5 +1,4 @@
 import { useState } from "react";
-//icons for the contacts
 import { MdElderly, MdElderlyWoman, MdMan, MdWoman } from "react-icons/md";
 import { TbManFilled, TbWomanFilled } from "react-icons/tb";
 import { BlockPicker } from "react-color";
@@ -9,7 +8,6 @@ import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import getBackendURL from "../utils/getBackendURL";
 
-// people, setPeople used to be a prop
 const AddContactForm = ({ validateContact, setPeople }) => {
   const { user } = useContext(AuthContext);
   const [contact, setContact] = useState({
@@ -158,7 +156,6 @@ const AddContactForm = ({ validateContact, setPeople }) => {
                 icon: contact.icon,
               },
             });
-            // setPeople([...people, contact]);
             setContact({ name: "", email: "", color: "#fff" });
           }
         }}
