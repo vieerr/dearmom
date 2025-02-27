@@ -12,6 +12,16 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const [buttonsEnable, setButtonsEnable] = useState(()=>
+  {
+    const enabled = localStorage.getItem("buttonsEnable");
+    return JSON.parse(enabled) ?? true;
+  });
+  const toggleModalRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("buttonsEnable", JSON.stringify(buttonsEnable));
+  }, [buttonsEnable]);
 
   useEffect(() => {
     if (authToken) {
@@ -20,10 +30,6 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
       setIsAuth(false);
     }
   }, [authToken]);
-
-  const [buttonsEnable, setButtonsEnable] = useState(true);
-
-  const toggleModalRef = useRef(null);
 
   const closeToggleModal = () => {
     if (toggleModalRef.current) {
@@ -131,12 +137,14 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
         <div className="flex justify-evenly w-full md:justify-end ">
           <div className={`flex ${!isAuth && "hidden"}`}>
             <label className="p-2 hidden md:inline">
-              For Parents: 
-              <span className={` ml-3 ${buttonsEnable ? "text-success": "text-error"}`}>
-
-              {`${buttonsEnable ? "ON" : "OFF"}`}
+              For Parents:
+              <span
+                className={` ml-3 ${
+                  buttonsEnable ? "text-success" : "text-error"
+                }`}
+              >
+                {`${buttonsEnable ? "ON" : "OFF"}`}
               </span>
-
             </label>
             <div className="form-control">
               <label className="label cursor-pointer">
