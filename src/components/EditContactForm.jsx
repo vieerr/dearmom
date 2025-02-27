@@ -20,15 +20,9 @@ const EditContactForm = ({
   validateContact,
   setPeople,
   setEditPanelVisibility,
+  isDefault
 }) => {
   const { user } = useContext(AuthContext);
-
-  const isDefault = (contact) =>
-  {
-    const mom = user?.contacts.find((contact) => contact.name === "mom");
-    const dad = user?.contacts.find((contact) => contact.name === "dad");
-    return contact?.id === mom.id || contact?.id === dad.id;
-  }
 
   const icons = [
     { icon: <MdElderly size={35} />, type: MdElderly },

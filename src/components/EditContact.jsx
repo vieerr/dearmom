@@ -23,6 +23,12 @@ const EditContact = ({ people, setPeople }) => {
     email: "",
   });
 
+  const isDefault = (contact) => {
+    const mom = user?.contacts.find((contact) => contact.name === "mom");
+    const dad = user?.contacts.find((contact) => contact.name === "dad");
+    return contact?.id === mom.id || contact?.id === dad.id;
+  };
+
   const { user } = useContext(AuthContext);
 
   const deleteContactFn = async (id) => {
@@ -76,13 +82,18 @@ const EditContact = ({ people, setPeople }) => {
 
     // TODO: Validate name uniqueness;
     if (type === "edit") {
-      if (people.some((prs) => prs.name === person.name)) {
+      if (
+        people.some(
+          (prs) => prs.name.toLowerCase() === person.name.toLowerCase()
+        ) &&
+        !isDefault(person)
+      ) {
         alert("Contact with that name already exists");
         return false;
       }
     }
 
-    if(type === "add") {
+    if (type === "add") {
       if (person.name === "dad" || person.name === "mom") {
         alert("Contact can't be named dad or mom");
         return false;
@@ -126,7 +137,7 @@ const EditContact = ({ people, setPeople }) => {
                   >
                     <MdEdit />
                   </button>
-                  {!(person.name === "dad" || person.name === "mom") && (
+                  {!isDefault() && (
                     <button
                       onClick={() => {
                         if (
@@ -150,6 +161,7 @@ const EditContact = ({ people, setPeople }) => {
       </div>
       {editPanelVisibility ? (
         <EditContactForm
+          isDefault={isDefault}
           people={people}
           setPeople={setPeople}
           contact={contact}
