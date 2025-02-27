@@ -1,4 +1,3 @@
-// src/utils/api.js
 import getBackendUrl from "./getBackendURL";
 export const registerUser = async (userData) => {
   const backendUrl = getBackendUrl();

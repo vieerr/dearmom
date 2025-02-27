@@ -1,4 +1,3 @@
-//icons for the contacts
 import { BlockPicker } from "react-color";
 import {
   MdArrowBack,
@@ -13,16 +12,14 @@ import getBackendURL from "../utils/getBackendURL";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const EditContactForm = ({
   contact,
   setContact,
   validateContact,
-  people,
   setPeople,
   setEditPanelVisibility,
+  isDefault
 }) => {
   const { user } = useContext(AuthContext);
 
@@ -48,10 +45,10 @@ const EditContactForm = ({
     },
     onSuccess: (data) => {
       setPeople(data.contacts);
-      console.log("Contacto actualizado con éxito");
+      alert("Contacto actualizado con éxito");
     },
     onError: (error) => {
-      console.error("Error actualizando al contacto", error);
+      alert("Error actualizando al contacto", error);
     },
   });
 
@@ -92,7 +89,7 @@ const EditContactForm = ({
           <span style={{ color: contact.color }}>{contact.name}</span>
         </h2>
       </div>
-      {!(contact.name === "dad" || contact.name === "mom") && (
+      {!isDefault(contact)&& (
         <div className="form-control mb-4">
           <label className="label">
             <span className="label-text font-bold ">Change Icon</span>
@@ -115,7 +112,7 @@ const EditContactForm = ({
       )}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          {!(contact.name === "dad" || contact.name === "mom") && (
+          {!isDefault(contact) && (
             <div className="form-control mb-4">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -184,7 +181,7 @@ const EditContactForm = ({
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (validateContact(contact)) {
+          if (validateContact(contact, "edit")) {
             mutate({
               userId: user.userId,
               contactId: contact.id,

@@ -16,7 +16,7 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
     mutationKey: "login",
     mutationFn: login,
     onSuccess: () => {
-      console.log("Login successful");
+      // console.log("Login successful");
       onClose();
     },
     onError: (error) => {
@@ -40,7 +40,6 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
     if (validateForm()) {
       mutate({ email, password });
     }
@@ -111,10 +110,10 @@ const LoginModal = ({ isOpen, onClose, onSwitchToRegister }) => {
           </div>
         </form>
         {isError && (
-          <div className="text-error text-sm mt-4">{error.message}</div>
+          <div className="text-error text-sm mt-4">Error: {error.response.data.message}</div>
         )}
         <div className="mt-4 text-center">
-          <span className="text-sm">Don't have an account? </span>
+          <span className="text-sm">{"Don't have an account?"} </span>
           <button
             className="text-sm text-blue-500 hover:underline"
             onClick={onSwitchToRegister}

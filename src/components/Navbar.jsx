@@ -7,12 +7,21 @@ import RegisterModal from "./RegisterModal";
 import { useState, useRef } from "react";
 import { AuthContext } from "./AuthProvider";
 import { useEffect } from "react";
-import { FaUser } from "react-icons/fa";
 const Navbar = ({ setPeople, people, setLetters, letters }) => {
-  const { authToken, logout, user } = useContext(AuthContext);
+  const { authToken, logout, refetch } = useContext(AuthContext);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const [buttonsEnable, setButtonsEnable] = useState(()=>
+  {
+    const enabled = localStorage.getItem("buttonsEnable");
+    return JSON.parse(enabled) ?? true;
+  });
+  const toggleModalRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("buttonsEnable", JSON.stringify(buttonsEnable));
+  }, [buttonsEnable]);
 
   useEffect(() => {
     if (authToken) {
@@ -21,10 +30,6 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
       setIsAuth(false);
     }
   }, [authToken]);
-
-  const [buttonsEnable, setButtonsEnable] = useState(true);
-
-  const toggleModalRef = useRef(null);
 
   const closeToggleModal = () => {
     if (toggleModalRef.current) {
@@ -84,7 +89,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           <div className="modal-box pt-9">
             <form method="dialog">
               {}
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+              <button className="btn-md btn-circle btn-ghost absolute top-1 right-1">
                 ✕
               </button>
             </form>
@@ -95,9 +100,9 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </form>
         </dialog>
         <dialog id="letter-record" className="modal">
-          <div className="modal-box px-0">
+          <div className="modal-box  px-0">
             <form method="dialog">
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+              <button className="btn-md btn-circle btn-ghost absolute top-1 right-1">
                 ✕
               </button>
             </form>
@@ -115,7 +120,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           <div className="modal-box pt-9">
             <form method="dialog">
               {}
-              <button className="btn-sm btn-circle btn-ghost absolute top-1 right-1">
+              <button className="btn-md btn-circle btn-ghost absolute top-1 right-1">
                 ✕
               </button>
             </form>
@@ -129,9 +134,18 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </form>
         </dialog>
 
-        <div className="flex w-full md:justify-end">
-          <div className="flex">
-            <label className="p-2 hidden md:inline">Cuenta innactiva</label>
+        <div className="flex justify-evenly w-full md:justify-end ">
+          <div className={`flex ${!isAuth && "hidden"}`}>
+            <label className="p-2 hidden md:inline">
+              For Parents:
+              <span
+                className={` ml-3 ${
+                  buttonsEnable ? "text-success" : "text-error"
+                }`}
+              >
+                {`${buttonsEnable ? "ON" : "OFF"}`}
+              </span>
+            </label>
             <div className="form-control">
               <label className="label cursor-pointer">
                 <input
@@ -143,27 +157,29 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
                 />
               </label>
             </div>
-            <label className="p-2 hidden md:inline">Cuenta activa</label>
           </div>
 
           <button
             onClick={() => document.getElementById("letter-record").showModal()}
-            className={`btn btn-sm btn-outline md:btn-lg m-2 ${
+            className={`btn btn-md btn-outline md:btn-lg m-2 ${
               (!isAuth || !buttonsEnable) && "btn-disabled"
             }`}
           >
             RECORD
           </button>
           <button
-            onClick={() => document.getElementById("for-parents").showModal()}
-            className={`btn btn-sm btn-outline md:btn-lg m-2 ${
+            onClick={() => {
+              refetch();
+              document.getElementById("for-parents").showModal();
+            }}
+            className={`btn btn-md btn-outline md:btn-lg m-2 ${
               (!isAuth || !buttonsEnable) && "btn-disabled"
             }`}
           >
             FOR PARENTS
           </button>
           {isAuth ? (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-evenly md:justify-center">
               <div tabIndex={0} role="button" className="avatar">
                 {/* <div className="w-full flex justify-center rounded-full mb-3">
                   <FaUser size={20} />
@@ -171,7 +187,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
               </div>
               <button
                 onClick={() => logout()}
-                className={`btn btn-sm md:btn-lg uppercase btn-error btn-outline mx-4 ${
+                className={`btn btn-md md:btn-lg uppercase btn-error btn-outline mx-4 ${
                   !buttonsEnable && "btn-disabled"
                 }`}
               >
@@ -180,7 +196,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
             </div>
           ) : (
             <button
-              className="btn btn-primary btn-lg uppercase font-bold "
+              className="btn btn-primary btn-md md:btn-lg uppercase font-bold "
               onClick={() => setIsLoginModalOpen(true)}
             >
               Login

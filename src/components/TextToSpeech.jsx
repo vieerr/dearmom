@@ -17,17 +17,17 @@ const TextToSpeech = ({ letter }) => {
     }
 
     setLoading(true);
-    setAudioSrc(null); // Clear previous audio
+    setAudioSrc(null); 
     try {
       const response = await axios.post(
         getBackendURL()+"/synthesize",
         { text },
-        { responseType: "blob" } // Important: Fetch the response as a Blob
+        { responseType: "blob" }
       );
 
       const audioBlob = response.data;
       const audioUrl = URL.createObjectURL(audioBlob);
-      setAudioSrc(audioUrl); // Set the audio URL for playback
+      setAudioSrc(audioUrl);
     } catch (error) {
       console.error("Error fetching audio:", error);
       alert("Error synthesizing audio.");

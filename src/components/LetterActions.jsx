@@ -12,11 +12,11 @@ const LetterActions = ({
   setAudio,
 }) => {
   return (
-    <div className="grid grid-cols-3 gap-3 mx-3 md:gap-5 md:mx-0">
+    <div className="grid grid-cols-3 gap-3 mx-3 md:mx-0 md:justify-evenly md:gap-6 md:flex">
       <button
         className={`btn ${
           letter.length > 1 ? "" : "btn-disabled"
-        } btn-success text-white mt-4 btn-lg  m-auto`}
+        } btn-success text-white mt-4 btn-lg md:w-1/3   m-auto`}
         onClick={() => {
           saveAsImage(addressee?.email);
         }}
@@ -26,7 +26,7 @@ const LetterActions = ({
       <button
         className={`btn ${
           letter.length > 1 ? "" : "btn-disabled"
-        } bg-blue-500 text-white mt-4 btn-lg  m-auto`}
+        } bg-blue-500 text-white mt-4 btn-lg md:w-1/3   m-auto`}
         onClick={() => {
           if (addressee?.email.length !== 0) {
             sendLetterToEmail({
@@ -43,7 +43,7 @@ const LetterActions = ({
       <button
         className={`btn ${
           letter.length > 1 ? "" : "btn-disabled"
-        } bg-red-500 text-white mt-4 btn-lg  m-auto`}
+        } bg-red-500 text-white mt-4 btn-lg md:w-1/3   m-auto`}
         onClick={() => {
           resetLetter("");
           setAudio(del);

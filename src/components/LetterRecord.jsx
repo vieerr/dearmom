@@ -21,47 +21,67 @@ const LetterRecord = ({ letters, setLetters }) => {
   };
 
   return (
-    <>
-      <div className="p-3">
-        <ul className="space-y-7 max-h-62 p-2">
-          {letters.length === 0 ? (
-            <p className="text-center font-light">No letters were sended yet</p>
-          ) : (
-            letters.map((letter, index) => (
-              <li
-                key={index}
-                className="capitalize p-2 shadow-md text-white border-2 border-gray-300 rounded-md justify-between items-center"
-              >
-                <h2>Letter sent on: {letter.sendedDate}</h2>
-                <p>To: {letter.name}</p>
-                <p>Email: {letter.email}</p>
-                <img className="pl-4 pr-4" src={letter.content} alt="" />
+<>
+  <div className="p-6 bg-white rounded-lg  w-full">
+    <ul className="space-y-6 mx-10 my-5 max-h-96 overflow-y-auto p-4">
+      {letters.length === 0 ? (
+        <p className="text-center text-gray-500 font-light text-lg">
+          No letters have been sent yet.
+        </p>
+      ) : (
+        letters.map((letter, index) => (
+          <li
+            key={index}
+            className="capitalize p-6 bg-gray-50 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200"
+          >
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                <span className="text-primary font-bold">Letter sent on:</span>{" "}
+                {letter.sendedDate}
+              </h2>
+              <p className="text-gray-700">
+                <span className="text-primary font-bold">To:</span> {letter.name}
+              </p>
+              {letter.email && (
+                <p className="text-gray-700">
+                  <span className="text-primary font-bold">Email:</span>{" "}
+                  {letter.email}
+                </p>
+              )}
+              <img
+                className="w-full rounded-md border border-gray-200"
+                src={letter.content}
+                alt="Letter content"
+              />
+              <div className="flex gap-4 mt-4">
                 <button
                   onClick={() => {
                     if (
-                      confirm("Are you sure you want to delete this contact?")
+                      confirm("Are you sure you want to delete this letter?")
                     ) {
                       setLetters(
-                        letters.filter((letter) => letter !== letters[index]),
+                        letters.filter((letter) => letter !== letters[index])
                       );
                     }
                   }}
-                  className="btn btn-square border-red-600 mr-2 w-28 bg-red-500 text-white hover:bg-red-700"
+                  className="btn btn-error text-white hover:bg-red-700 flex items-center gap-2"
                 >
-                  <FaTrash size={14} className="inline-block" /> DELETE
+                  <FaTrash size={14} /> DELETE
                 </button>
                 <button
-                  className="btn btn-square border-blue-600 mr-2 w-28 bg-blue-500 text-white hover:bg-blue-700"
+                  className="btn btn-primary text-white hover:bg-blue-700 flex items-center gap-2"
                   onClick={() => saveAsImage(letter.content)}
                 >
                   <FaDownload size={14} /> SAVE
                 </button>
-              </li>
-            ))
-          )}
-        </ul>
-      </div>
-    </>
+              </div>
+            </div>
+          </li>
+        ))
+      )}
+    </ul>
+  </div>
+</>
   );
 };
 
