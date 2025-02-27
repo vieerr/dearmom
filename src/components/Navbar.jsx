@@ -100,7 +100,7 @@ const Navbar = ({ setPeople, people, setLetters, letters }) => {
           </form>
         </dialog>
         <dialog id="letter-record" className="modal">
-          <div className="modal-box px-0">
+          <div className="modal-box  px-0">
             <form method="dialog">
               <button className="btn-md btn-circle btn-ghost absolute top-1 right-1">
                 ✕
