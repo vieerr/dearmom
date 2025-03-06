@@ -134,6 +134,7 @@ const EditContact = ({ people, setPeople }) => {
                         onClick={() => {
                           editContact(person);
                         }}
+                        aria-label="edit"
                         className="btn btn-square border-white mr-2"
                       >
                         <MdEdit />
@@ -149,6 +150,7 @@ const EditContact = ({ people, setPeople }) => {
                               deleteContact(person.id);
                             }
                           }}
+                          aria-label="delete"
                           className="btn btn-square border-white mr-2"
                         >
                           <FaTrash />

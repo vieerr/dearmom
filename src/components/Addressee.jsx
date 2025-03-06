@@ -76,6 +76,7 @@ const Addressee = ({
     <>
       <div className=" justify-evenly gap-6 hidden md:flex">
         <button
+        aria-label="dad"
           className={` btn  bg-blue-400 text-white mt-4 btn-lg w-1/3 m-auto`}
           onClick={() => {
             setDadLetter();
@@ -84,6 +85,7 @@ const Addressee = ({
           <IoIosMan size={35} className="inline-block" /> DAD
         </button>
         <button
+        aria-label="mom"
           className={`btn  text-white bg-pink-400 mt-4 btn-lg w-1/3 m-auto`}
           onClick={() => {
             setMomLetter();
@@ -92,6 +94,7 @@ const Addressee = ({
           <IoIosWoman size={35} className="inline-block" /> MOM
         </button>
         <button
+        aria-label="other"
           data-tip="Ask your parent for help"
           className={`btn  text-white bg-gray-400 mt-4 btn-lg w-1/3 m-auto ${
             people.length <= 2 && "btn-disabled"
@@ -107,6 +110,7 @@ const Addressee = ({
         <h2 className="text-xl font-bold">CONTACT</h2>
         <div className="flex gap-4 justify-center mt-4 flex-col md:flex-row">
           <button
+          aria-label="dad"
             className={" btn btn-secondary btn-lg "}
             style={{
               backgroundColor: currentContact.color,

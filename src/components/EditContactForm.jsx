@@ -78,6 +78,7 @@ const EditContactForm = ({
     <form className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
       <div className="flex items-center ">
         <button
+        aria-label="close-modal"
           className="btn btn-square btn-ghost mr-11"
           type="button"
           onClick={() => setEditPanelVisibility(false)}
@@ -99,6 +100,7 @@ const EditContactForm = ({
               <button
                 key={icon.type}
                 type="button"
+                aria-label="icon"
                 onClick={() => setContact({ ...contact, icon: icon.icon })}
                 className={`btn btn-outline ${
                   contact.icon?.type === icon.type ? "btn-primary" : ""

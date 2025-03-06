@@ -53,7 +53,7 @@ const Contacts = ({ setAudio, setAddressee, people }) => {
   return (
     <div className="modal-box">
       <form method="dialog">
-        <button className="btn btn-lg btn-circle text-3xl font-bold btn-ghost absolute right-2 top-2">
+        <button aria-label="close-modal" className="btn btn-lg btn-circle text-3xl font-bold btn-ghost absolute right-2 top-2">
           ✕
         </button>{" "}
       </form>
@@ -71,6 +71,7 @@ const Contacts = ({ setAudio, setAddressee, people }) => {
                   ? { backgroundColor: "green" }
                   : { backgroundColor: person.color }
               }
+              aria-label="contact"
               className="btn btn-lg text-white justify-evenly"
             >
               <div className="avatar">

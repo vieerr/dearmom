@@ -72,6 +72,7 @@ const AddContactForm = ({ validateContact, setPeople }) => {
             <button
               key={index}
               type="button"
+              aria-label="icon"
               onClick={() => setContact({ ...contact, icon: icon.name })}
               className={`btn btn-outline ${
                 contact.icon === icon.name ? "btn-primary" : ""
@@ -160,6 +161,7 @@ const AddContactForm = ({ validateContact, setPeople }) => {
           }
         }}
         type="submit"
+        aria-label="add contact"
         className="btn btn-success w-full"
       >
         Add Contact
