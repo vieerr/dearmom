@@ -62,10 +62,11 @@ const ThemeButtons = ({ setTheme, setAudio }) => {
 
   return (
     <>
-      <div className="hidden md:block m-auto md:order-none order-2">
+      <div id="theme-buttons" className="hidden md:block m-auto md:order-none order-2">
         <h2 className="p-8 text-2xl font-bold">THEME</h2>
         <div className="flex gap-4 justify-center mt-4 flex-col">
           <button
+            id="theme-button-love"
             className="btn btn-lg bg-pink-600 hover:bg-pink-600 text-white"
             onClick={() => {
               setTheme("love");

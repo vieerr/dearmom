@@ -15,6 +15,7 @@ const Letter = ({ transcript, theme, font, letterRef, addressee }) => {
 
   return (
     <div
+      id="letter"
       ref={letterRef}
       style={{ fontFamily: font }}
       className={` flex justify-center items-center md:py-8 md:min-w-max ${currentTheme.container}`}
