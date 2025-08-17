@@ -38,7 +38,7 @@ function App() {
     toast.info(
       `Speech-to-text feature currently works best on
        Google Chrome due to  API compatibility.
-      Support to other browsers is on the way! ᕙ⁠(⁠⇀⁠‸⁠↼⁠‶⁠)⁠ᕗ `,
+      We will support other browsers in the future! ᕙ⁠(⁠⇀⁠‸⁠↼⁠‶⁠)⁠ᕗ `,
       {
         position: "top-center",
         autoClose: 5000,
