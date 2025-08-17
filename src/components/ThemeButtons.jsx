@@ -67,7 +67,7 @@ const ThemeButtons = ({ setTheme, setAudio }) => {
         <div className="flex gap-4 justify-center mt-4 flex-col">
           <button
             id="theme-button-love"
-            className="btn btn-lg bg-pink-600 hover:bg-pink-600 text-white"
+            className="btn btn-lg bg-pink-300 hover:bg-pink-300 text-white"
             onClick={() => {
               setTheme("love");
               setAudio(theme);
